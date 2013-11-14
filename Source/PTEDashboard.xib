@@ -50,6 +50,7 @@
 									<object class="NSPSMatrix" key="NSFrameMatrix"/>
 									<string key="NSFrameSize">{320, 88}</string>
 									<reference key="NSSuperview" ref="915004842"/>
+									<reference key="NSWindow"/>
 									<reference key="NSNextKeyView" ref="806533435"/>
 									<int key="IBUIContentMode">3</int>
 									<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
@@ -75,6 +76,7 @@
 									<object class="NSPSMatrix" key="NSFrameMatrix"/>
 									<string key="NSFrame">{{0, 388}, {320, 20}}</string>
 									<reference key="NSSuperview" ref="915004842"/>
+									<reference key="NSWindow"/>
 									<reference key="NSNextKeyView" ref="520383093"/>
 									<object class="NSColor" key="IBUIBackgroundColor" id="925833893">
 										<int key="NSColorSpace">3</int>
@@ -86,6 +88,7 @@
 							<object class="NSPSMatrix" key="NSFrameMatrix"/>
 							<string key="NSFrameSize">{320, 320}</string>
 							<reference key="NSSuperview" ref="73910979"/>
+							<reference key="NSWindow"/>
 							<reference key="NSNextKeyView" ref="131725633"/>
 							<reference key="IBUIBackgroundColor" ref="925833893"/>
 							<bool key="IBUIClipsSubviews">YES</bool>
@@ -107,6 +110,7 @@
 							<object class="NSPSMatrix" key="NSFrameMatrix"/>
 							<string key="NSFrame">{{0, 300}, {20, 20}}</string>
 							<reference key="NSSuperview" ref="73910979"/>
+							<reference key="NSWindow"/>
 							<reference key="NSNextKeyView" ref="549196526"/>
 							<object class="NSColor" key="IBUIBackgroundColor" id="378990048">
 								<int key="NSColorSpace">3</int>
@@ -150,6 +154,7 @@
 							<object class="NSPSMatrix" key="NSFrameMatrix"/>
 							<string key="NSFrame">{{25, 300}, {40, 20}}</string>
 							<reference key="NSSuperview" ref="73910979"/>
+							<reference key="NSWindow"/>
 							<reference key="NSNextKeyView" ref="396251559"/>
 							<reference key="IBUIBackgroundColor" ref="378990048"/>
 							<bool key="IBUIOpaque">NO</bool>
@@ -179,6 +184,7 @@
 							<object class="NSPSMatrix" key="NSFrameMatrix"/>
 							<string key="NSFrame">{{70, 300}, {40, 20}}</string>
 							<reference key="NSSuperview" ref="73910979"/>
+							<reference key="NSWindow"/>
 							<reference key="NSNextKeyView" ref="935075086"/>
 							<reference key="IBUIBackgroundColor" ref="378990048"/>
 							<bool key="IBUIOpaque">NO</bool>
@@ -201,6 +207,7 @@
 							<object class="NSPSMatrix" key="NSFrameMatrix"/>
 							<string key="NSFrame">{{115, 300}, {110, 20}}</string>
 							<reference key="NSSuperview" ref="73910979"/>
+							<reference key="NSWindow"/>
 							<reference key="NSNextKeyView"/>
 							<reference key="IBUIBackgroundColor" ref="378990048"/>
 							<bool key="IBUIOpaque">NO</bool>
@@ -221,6 +228,7 @@
 					<object class="NSPSMatrix" key="NSFrameMatrix"/>
 					<string key="NSFrameSize">{320, 320}</string>
 					<reference key="NSSuperview"/>
+					<reference key="NSWindow"/>
 					<reference key="NSNextKeyView" ref="915004842"/>
 					<object class="NSColor" key="IBUIBackgroundColor">
 						<int key="NSColorSpace">1</int>
@@ -254,6 +262,7 @@
 						<object class="NSPSMatrix" key="NSFrameMatrix"/>
 						<string key="NSFrameSize">{320, 300}</string>
 						<reference key="NSSuperview" ref="191846123"/>
+						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="167451242"/>
 						<reference key="IBUIBackgroundColor" ref="925833893"/>
 						<bool key="IBUIClipsSubviews">YES</bool>
@@ -274,6 +283,7 @@
 						<object class="NSPSMatrix" key="NSFrameMatrix"/>
 						<string key="NSFrame">{{115, 300}, {110, 20}}</string>
 						<reference key="NSSuperview" ref="191846123"/>
+						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView"/>
 						<reference key="IBUIBackgroundColor" ref="378990048"/>
 						<bool key="IBUIOpaque">NO</bool>
@@ -301,6 +311,7 @@
 						<object class="NSPSMatrix" key="NSFrameMatrix"/>
 						<string key="NSFrame">{{0, 300}, {20, 20}}</string>
 						<reference key="NSSuperview" ref="191846123"/>
+						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="72364038"/>
 						<reference key="IBUIBackgroundColor" ref="378990048"/>
 						<bool key="IBUIOpaque">NO</bool>
@@ -329,6 +340,7 @@
 						<object class="NSPSMatrix" key="NSFrameMatrix"/>
 						<string key="NSFrame">{{25, 300}, {40, 20}}</string>
 						<reference key="NSSuperview" ref="191846123"/>
+						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="296338895"/>
 						<reference key="IBUIBackgroundColor" ref="378990048"/>
 						<bool key="IBUIOpaque">NO</bool>
@@ -351,6 +363,7 @@
 						<object class="NSPSMatrix" key="NSFrameMatrix"/>
 						<string key="NSFrame">{{70, 300}, {40, 20}}</string>
 						<reference key="NSSuperview" ref="191846123"/>
+						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="462548728"/>
 						<reference key="IBUIBackgroundColor" ref="378990048"/>
 						<bool key="IBUIOpaque">NO</bool>
@@ -371,6 +384,7 @@
 				<object class="NSPSMatrix" key="NSFrameMatrix"/>
 				<string key="NSFrameSize">{320, 320}</string>
 				<reference key="NSSuperview"/>
+				<reference key="NSWindow"/>
 				<reference key="NSNextKeyView" ref="1011612051"/>
 				<object class="NSColor" key="IBUIBackgroundColor">
 					<int key="NSColorSpace">1</int>
@@ -680,7 +694,7 @@
 				<real value="0.0" key="XUd-fb-bAP.IBUIButtonInspectorSelectedStateConfigurationMetadataKey"/>
 				<reference key="XUd-fb-bAP.IBUserGuides" ref="0"/>
 				<boolean value="NO" key="XUd-fb-bAP.showNotes"/>
-				<string key="e4Y-ij-Zqu.CustomClassName">NBULogAdjustLevelsTableView</string>
+				<string key="e4Y-ij-Zqu.CustomClassName">PTEAdjustLevelsTableView</string>
 				<string key="e4Y-ij-Zqu.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<reference key="e4Y-ij-Zqu.IBUserGuides" ref="0"/>
 				<boolean value="NO" key="e4Y-ij-Zqu.showNotes"/>
@@ -709,7 +723,113 @@
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
 		</object>
-		<object class="IBClassDescriber" key="IBDocument.Classes"/>
+		<object class="IBClassDescriber" key="IBDocument.Classes">
+			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
+				<object class="IBPartialClassDescription">
+					<string key="className">DDAbstractLogger</string>
+					<string key="superclassName">NSObject</string>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/DDAbstractLogger.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">PTEAdjustLevelsTableView</string>
+					<string key="superclassName">UITableView</string>
+					<object class="NSMutableDictionary" key="actions">
+						<string key="NS.key.0">stepperValueChanged:</string>
+						<string key="NS.object.0">UIStepper</string>
+					</object>
+					<object class="NSMutableDictionary" key="actionInfosByName">
+						<string key="NS.key.0">stepperValueChanged:</string>
+						<object class="IBActionInfo" key="NS.object.0">
+							<string key="name">stepperValueChanged:</string>
+							<string key="candidateClassName">UIStepper</string>
+						</object>
+					</object>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/PTEAdjustLevelsTableView.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">PTEConsoleLogger</string>
+					<string key="superclassName">DDAbstractLogger</string>
+					<dictionary class="NSMutableDictionary" key="outlets">
+						<string key="searchBar">UISearchBar</string>
+						<string key="tableView">UITableView</string>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
+						<object class="IBToOneOutletInfo" key="searchBar">
+							<string key="name">searchBar</string>
+							<string key="candidateClassName">UISearchBar</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="tableView">
+							<string key="name">tableView</string>
+							<string key="candidateClassName">UITableView</string>
+						</object>
+					</dictionary>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/PTEConsoleLogger.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">PTEDashboard</string>
+					<string key="superclassName">UIWindow</string>
+					<dictionary class="NSMutableDictionary" key="actions">
+						<string key="toggleAdjustLevelsView:">id</string>
+						<string key="toggleFullscreen:">id</string>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="actionInfosByName">
+						<object class="IBActionInfo" key="toggleAdjustLevelsView:">
+							<string key="name">toggleAdjustLevelsView:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="toggleFullscreen:">
+							<string key="name">toggleFullscreen:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="outlets">
+						<string key="adjustLevelsView">UIView</string>
+						<string key="logger">PTEConsoleLogger</string>
+						<string key="loggerView">UIView</string>
+						<string key="toggleButton">UIButton</string>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
+						<object class="IBToOneOutletInfo" key="adjustLevelsView">
+							<string key="name">adjustLevelsView</string>
+							<string key="candidateClassName">UIView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="logger">
+							<string key="name">logger</string>
+							<string key="candidateClassName">PTEConsoleLogger</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="loggerView">
+							<string key="name">loggerView</string>
+							<string key="candidateClassName">UIView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="toggleButton">
+							<string key="name">toggleButton</string>
+							<string key="candidateClassName">UIButton</string>
+						</object>
+					</dictionary>
+					<object class="NSMutableDictionary" key="toManyOutletInfosByName">
+						<string key="NS.key.0">fullscreenOnlyViews</string>
+						<object class="IBToManyOutletInfo" key="NS.object.0">
+							<string key="name">fullscreenOnlyViews</string>
+							<string key="candidateClassName">UIView</string>
+							<string key="collectionClassName">NSArray</string>
+						</object>
+					</object>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/PTEDashboard.h</string>
+					</object>
+				</object>
+			</array>
+		</object>
 		<int key="IBDocument.localizationMode">0</int>
 		<string key="IBDocument.TargetRuntimeIdentifier">IBCocoaTouchFramework</string>
 		<bool key="IBDocument.previouslyAttemptedUpgradeToXcode5">YES</bool>

@@ -52,17 +52,27 @@ static PTEDashboard * _sharedDashboard;
         self.windowLevel = UIWindowLevelStatusBar + 1;
         _screenSize = [UIScreen mainScreen].bounds.size;
         
-#if XCODE_VERSION_MAJOR >= 0500
-        if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0"))
-        {
-            self.tintColor = [UIColor lightGrayColor];
-        }
-#endif
+        #if XCODE_VERSION_MAJOR >= 0500
+            if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0"))
+            {
+                self.tintColor = [UIColor lightGrayColor];
+            }
+        #endif
         
         // Load other views and objects
         [[NSBundle mainBundle] loadNibNamed:@"PTEDashboard"
                                       owner:self
                                     options:nil];
+        
+        // Disable adjust levels if NBULog is not present
+        #ifndef COCOAPODS_POD_AVAILABLE_NBULog
+            UILabel * notice = [UILabel new];
+            notice.text = @"NBULog required";
+            notice.backgroundColor = [UIColor clearColor];
+            notice.textColor = [UIColor whiteColor];
+            [notice sizeToFit];
+            [_adjustLevelsView addSubview:notice];
+        #endif
         
         // Add a pan gesture recognizer for the toggle button
         UIPanGestureRecognizer * panRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self
