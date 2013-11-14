@@ -1,10 +1,10 @@
 
 platform :ios, '5.0'
 
-# For regular projects use:
+# For regular projects
 pod 'CocoaLumberjack'
 #pod 'LumberjackConsole'
 
-# For development:
+# For development
 pod 'NBUCore', :path => '../../NBUBase/NBUCore'
 pod 'LumberjackConsole', :path => '../'
