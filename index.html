@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <title>Lumberjackconsole by PTEz</title>
+    <title>LumberjackConsole by PTEz</title>
 
     <link rel="stylesheet" href="stylesheets/styles.css">
     <link rel="stylesheet" href="stylesheets/pygment_trac.css">
@@ -15,7 +15,7 @@
   <body>
     <div class="wrapper">
       <header>
-        <h1>Lumberjackconsole</h1>
+        <h1>LumberjackConsole</h1>
         <p>On-device CocoaLumberjack console.</p>
 
         <p class="view"><a href="https://github.com/PTEz/LumberjackConsole">View the Project on GitHub <small>PTEz/LumberjackConsole</small></a></p>
@@ -28,10 +28,97 @@
         </ul>
       </header>
       <section>
-        <h1>
-<a name="lumberjackconsole" class="anchor" href="#lumberjackconsole"><span class="octicon octicon-link"></span></a>LumberjackConsole</h1>
+        <p><a href="http://cocoadocs.org/docsets/LumberjackConsole/"><img src="https://cocoapod-badges.herokuapp.com/p/LumberjackConsole/badge.svg" alt="Platform: iOS"></a>
+<a href="http://cocoadocs.org/docsets/LumberjackConsole/"><img src="https://cocoapod-badges.herokuapp.com/v/LumberjackConsole/badge.png" alt="Version: 1.0.0"></a>
+<a href="https://travis-ci.org/PTEz/LumberjackConsole"><img src="https://travis-ci.org/PTEz/LumberjackConsole.png?branch=master" alt="Build Status"></a></p>
 
-<p>An on-device CocoaLumberjack console.</p>
+<p><img src="http://ptez.github.io/LumberjackConsole/images/screenshot1.png" alt="Screenshot 1">　<img src="http://ptez.github.io/LumberjackConsole/images/screenshot2.png" alt="Screenshot 2"></p>
+
+<h3>
+<a name="installation" class="anchor" href="#installation"><span class="octicon octicon-link"></span></a>Installation</h3>
+
+<p>Simply add <code>pod 'LumberjackConsole'</code> to your <a href="http://cocoapods.org">CocoaPods</a>' <a href="http://docs.cocoapods.org/podfile.html">Podfile</a>.</p>
+
+<h3>
+<a name="usage" class="anchor" href="#usage"><span class="octicon octicon-link"></span></a>Usage</h3>
+
+<h4>
+<a name="a-dashboard-logger" class="anchor" href="#a-dashboard-logger"><span class="octicon octicon-link"></span></a>a) Dashboard Logger</h4>
+
+<p>Import the dashboard header:</p>
+
+<div class="highlight highlight-obj-c"><pre><span class="cp">#import &lt;LumberjackConsole/PTEDashboard.h&gt;</span>
+</pre></div>
+
+<p>Add its logger for testing builds:</p>
+
+<div class="highlight highlight-obj-c"><pre><span class="k">-</span> <span class="p">(</span><span class="kt">BOOL</span><span class="p">)</span><span class="nf">application:</span><span class="p">(</span><span class="n">UIApplication</span> <span class="o">*</span><span class="p">)</span><span class="nv">application</span> <span class="nf">didFinishLaunchingWithOptions:</span><span class="p">(</span><span class="n">NSDictionary</span> <span class="o">*</span><span class="p">)</span><span class="nv">launchOptions</span>
+<span class="p">{</span>
+<span class="cp">#ifndef MY_PRODUCTION_MACRO</span>
+        <span class="c1">// Add the console dashboard for testing builds</span>
+        <span class="p">[</span><span class="n">DDLog</span> <span class="n">addLogger</span><span class="o">:</span><span class="p">[</span><span class="n">PTEDashboard</span> <span class="n">sharedDashboard</span><span class="p">].</span><span class="n">logger</span><span class="p">];</span> <span class="c1">// &lt;- If not using NBULog</span>
+        <span class="c1">// [NBULog addDashboardLogger];                          // &lt;- If using NBULog</span>
+
+        <span class="n">DDLogInfo</span><span class="p">(</span><span class="s">@"Added console dashboard"</span><span class="p">);</span>
+<span class="cp">#endif</span>
+
+        <span class="c1">// ...</span>
+
+        <span class="k">return</span> <span class="nb">YES</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+
+<h4>
+<a name="b-embeded-console" class="anchor" href="#b-embeded-console"><span class="octicon octicon-link"></span></a>b) Embeded Console</h4>
+
+<p>You can also embed the console into your own <code>UITableView</code>:</p>
+
+<div class="highlight highlight-obj-c"><pre>    <span class="c1">// Add a custom console</span>
+    <span class="n">_customConsoleLogger</span> <span class="o">=</span> <span class="p">[</span><span class="n">PTEConsoleLogger</span> <span class="n">new</span><span class="p">];</span>
+    <span class="n">_customConsoleLogger</span><span class="p">.</span><span class="n">tableView</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">customConsoleTableView</span><span class="p">;</span>
+    <span class="p">[</span><span class="n">DDLog</span> <span class="n">addLogger</span><span class="o">:</span><span class="n">_customConsoleLogger</span><span class="p">];</span>
+
+    <span class="n">DDLogInfo</span><span class="p">(</span><span class="s">@"Added a custom console logger"</span><span class="p">);</span>
+</pre></div>
+
+<h3>
+<a name="more" class="anchor" href="#more"><span class="octicon octicon-link"></span></a>More</h3>
+
+<p>When coupled with <a href="https://github.com/CyberAgent/iOS-NBULog">NBULog</a> you can dynamically adjust log levels from within the dashboard!</p>
+
+<p><img src="http://ptez.github.io/LumberjackConsole/images/screenshot3.png" alt="Screenshot 3"></p>
+
+<p>You log level settings are saved to <code>NSUserDefaults</code>.</p>
+
+<h3>
+<a name="documentation" class="anchor" href="#documentation"><span class="octicon octicon-link"></span></a>Documentation</h3>
+
+<p><a href="http://cocoadocs.org/docsets/LumberjackConsole/">http://cocoadocs.org/docsets/LumberjackConsole/</a></p>
+
+<h3>
+<a name="todo" class="anchor" href="#todo"><span class="octicon octicon-link"></span></a>ToDo</h3>
+
+<ul>
+<li>Clean up table view's data source.</li>
+<li>Improve rotation support.</li>
+<li>Clear log and message markers.</li>
+<li>Long tap to copy text.</li>
+<li>Read crash reports.</li>
+</ul><h3>
+<a name="license" class="anchor" href="#license"><span class="octicon octicon-link"></span></a>License</h3>
+
+<pre><code>Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License. 
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+</code></pre>
       </section>
       <footer>
         <p>This project is maintained by <a href="https://github.com/PTEz">PTEz</a></p>
@@ -39,6 +126,16 @@
       </footer>
     </div>
     <script src="javascripts/scale.fix.js"></script>
-    
+              <script type="text/javascript">
+            var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+            document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+          </script>
+          <script type="text/javascript">
+            try {
+              var pageTracker = _gat._getTracker("UA-45739281-1");
+            pageTracker._trackPageview();
+            } catch(err) {}
+          </script>
+
   </body>
 </html>
