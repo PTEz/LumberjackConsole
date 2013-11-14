@@ -28,7 +28,8 @@
  - Can be filtered according to log levels or text.
  - Can be minimized, maximized or used in any size in between.
  
- @note You don't need to use this class directly but instead use [NBULog addDashboardLogger].
+ @note You don't need to use this class directly but instead use
+ [DDLog addLogger:[PTEDashboard sharedDashboard].logger] or [NBULog addDashboardLogger].
  */
 @interface PTEConsoleLogger : DDAbstractLogger <UITableViewDelegate,
                                                 UITableViewDataSource,

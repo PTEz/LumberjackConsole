@@ -19,6 +19,9 @@
 //
 
 /**
+ A table view used to dynamically adjust log levels.
+ 
+ @note Enabled only when NBULog is present.
  */
 @interface PTEAdjustLevelsTableView : UITableView
 
@@ -26,11 +29,17 @@
 
 
 /**
+ An adjust levels' cell.
  */
 @interface PTEAdjustLevelsCell : UITableViewCell
 
+/// The name of the log module.
 @property (weak, nonatomic) IBOutlet UILabel * nameLabel;
+
+/// The current log level.
 @property (weak, nonatomic) IBOutlet UILabel * levelLabel;
+
+/// A stepper to increase/decrease the log level.
 @property (weak, nonatomic) IBOutlet UIStepper * levelStepper;
 
 @end

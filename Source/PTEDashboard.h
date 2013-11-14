@@ -3,7 +3,7 @@
 //  LumberjackConsole
 //
 //  Created by Ernesto Rivera on 2012/12/17.
-//  Copyright (c) 2012-2013 CyberAgent Inc.
+//  Copyright (c) 2013.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -21,11 +21,10 @@
 #import "PTEConsoleLogger.h"
 
 /**
- An on-device "dashboard" to display (for now):
+ On-device Dashboard to display a PTEConsoleLogger.
  
- - A PTEConsoleLogger.
- 
- @note You don't need to use this class directly but instead use [NBULog addDashboardLogger].
+ @note You don't need to use this class directly but instead use
+ [DDLog addLogger:[PTEDashboard sharedDashboard].logger] or [NBULog addDashboardLogger].
  */
 @interface PTEDashboard : UIWindow
 
@@ -44,14 +43,21 @@
 /// A button to toggle: the dashboard size.
 @property (weak, nonatomic) IBOutlet        UIButton * toggleButton;
 
+/// Views that should be hidden when not in fullscreen mode.
 @property (strong, nonatomic) IBOutletCollection(UIView) NSArray * fullscreenOnlyViews;
+
+/// The view that has the console.
 @property (strong, nonatomic) IBOutlet      UIView * loggerView;
+
+/// The view that has the adjust levels' controls.
 @property (strong, nonatomic) IBOutlet      UIView * adjustLevelsView;
 
 /// Maximize/minimize the log dashboard.
 /// @param sender The sender object.
 - (IBAction)toggleFullscreen:(id)sender;
 
+/// Toggle between the loggerView and the adjustLevelsView.
+/// @param sender The sender object.
 - (IBAction)toggleAdjustLevelsView:(id)sender;
 
 /// @name Properties
