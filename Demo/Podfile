@@ -6,5 +6,4 @@ pod 'CocoaLumberjack'
 #pod 'LumberjackConsole'
 
 # For development
-pod 'NBUCore', :path => '../../NBUBase/NBUCore'
 pod 'LumberjackConsole', :path => '../'

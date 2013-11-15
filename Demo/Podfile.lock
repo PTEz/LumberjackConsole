@@ -24,17 +24,14 @@ PODS:
 DEPENDENCIES:
   - CocoaLumberjack
   - LumberjackConsole (from `../`)
-  - NBUCore (from `../../NBUBase/NBUCore`)
 
 EXTERNAL SOURCES:
   LumberjackConsole:
     :path: ../
-  NBUCore:
-    :path: ../../NBUBase/NBUCore
 
 SPEC CHECKSUMS:
   CocoaLumberjack: 0af89e0de15835a499fcc6ee5e0b6d396bc95976
-  LumberjackConsole: 75832319e4dd435d600a533699c805bc94fc3f38
+  LumberjackConsole: 8ccf5df9abb5afc2ccb7cb9f49f6492fdf400527
   NBUCore: 66e33f9426cbefb5ca88f3228cfc2dd36eac6e71
 
 COCOAPODS: 0.25.0
