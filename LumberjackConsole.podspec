@@ -3,7 +3,7 @@
 Pod::Spec.new do |s|
     
     s.name          = "LumberjackConsole"
-    s.version       = "1.0.0"
+    s.version       = "1.0.1"
     s.summary       = "On-device CocoaLumberjack console with support for search, filters and more."
     s.homepage      = "http://ptez.github.io/LumberjackConsole"
     
