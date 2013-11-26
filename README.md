@@ -1,4 +1,3 @@
-
 LumberjackConsole
 =================
 
@@ -6,7 +5,7 @@ LumberjackConsole
 [![Version: 1.0.1](https://cocoapod-badges.herokuapp.com/v/LumberjackConsole/badge.png)](http://cocoadocs.org/docsets/LumberjackConsole/)
 [![Build Status](https://travis-ci.org/PTEz/LumberjackConsole.png?branch=master)](https://travis-ci.org/PTEz/LumberjackConsole)
 
-On-device CocoaLumberjack console with support for search, filters and more.
+On-device [CocoaLumberjack](https://github.com/robbiehanson/CocoaLumberjack) console with support for search, filters and more.
 
 ![Screenshot 1](http://ptez.github.io/LumberjackConsole/images/screenshot1.png)　![Screenshot 2](http://ptez.github.io/LumberjackConsole/images/screenshot2.png)
 
