@@ -13,6 +13,16 @@ On-device [CocoaLumberjack](https://github.com/robbiehanson/CocoaLumberjack) con
 
 Simply add `pod 'LumberjackConsole'` to your [CocoaPods](http://cocoapods.org)' [Podfile](http://docs.cocoapods.org/podfile.html).
 
+```ruby
+platform :ios, '5.0'
+
+pod 'CocoaLumberjack'
+pod 'LumberjackConsole'
+
+# Optional for dynamic log levels
+#pod 'NBULog'
+```
+
 ### Usage
 
 #### a) Dashboard Logger
