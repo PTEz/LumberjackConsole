@@ -5,5 +5,8 @@ platform :ios, '5.0'
 pod 'CocoaLumberjack'
 #pod 'LumberjackConsole'
 
+# Optional for dynamic log levels
+#pod 'NBULog'
+
 # For development
 pod 'LumberjackConsole', :path => '../'
