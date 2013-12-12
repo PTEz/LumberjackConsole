@@ -20,7 +20,7 @@ pod 'CocoaLumberjack'
 pod 'LumberjackConsole'
 
 # Optional for dynamic log levels
-#pod 'NBULog'
+pod 'NBULog'
 ```
 
 ### Usage
