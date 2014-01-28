@@ -44,7 +44,7 @@ static PTEDashboard * _sharedDashboard;
     return _sharedDashboard;
 }
 
-- (id)initWithFrame:(CGRect)frame
+- (instancetype)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
     if (self)
