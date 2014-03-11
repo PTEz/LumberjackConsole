@@ -9,6 +9,21 @@ On-device [CocoaLumberjack](https://github.com/robbiehanson/CocoaLumberjack) con
 
 ![Screenshot 1](http://ptez.github.io/LumberjackConsole/images/screenshot1.png)　![Screenshot 2](http://ptez.github.io/LumberjackConsole/images/screenshot2.png)
 
+## Features
+
+* Sypport dynamic log levels.
+* Support log modules.
+* Auto-enable [XcodeColors](https://github.com/robbiehanson/XcodeColors) when present.
+* No need to declare `ddLogLevel`.
+
+### ToDo
+
+* Clean up table view's data source.
+* Improve rotation support.
+* Clear log and message markers.
+* Long tap to copy text.
+* Read crash reports.
+
 ## Demo
 
 There is a ConsoleDemo project included in the repository and can also be tried online [here](https://app.io/UQcR5R).
@@ -78,14 +93,6 @@ You log level settings are saved to `NSUserDefaults`.
 ## Documentation
 
 http://cocoadocs.org/docsets/LumberjackConsole/
-
-## ToDo
-
-* Clean up table view's data source.
-* Improve rotation support.
-* Clear log and message markers.
-* Long tap to copy text.
-* Read crash reports.
 
 ## License
 
