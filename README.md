@@ -20,7 +20,7 @@ On-device [CocoaLumberjack](https://github.com/robbiehanson/CocoaLumberjack) con
 
 * Clean up table view's data source.
 * Improve rotation support.
-* Clear log and message markers.
+* Clear log and "marker" messages.
 * Long tap to copy text.
 * Read crash reports.
 
