@@ -18,12 +18,12 @@ Pod::Spec.new do |s|
     s.requires_arc  = true
     s.preserve_paths = "README.md", "NOTICE"
     
-    s.dependency 'NBUCore', '>= 2.0.0'
+    s.dependency 'NBUCore', '>= 2.0.2'
     s.dependency 'CocoaLumberjack', '>= 1.6.4'
     
     s.subspec 'Base' do |sub|
         sub.source_files = 'Source/*.{h,m}'
-        sub.resources    = 'Source/*.{xib}'
+        sub.resources    = 'Source/*.{storyboard}'
     end
     
     s.subspec 'AdjustLevels' do |sub|
