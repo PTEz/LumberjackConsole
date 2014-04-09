@@ -54,28 +54,14 @@
         // Init message arrays
         _messages = [NSMutableArray arrayWithCapacity:_maxMessages];
         _filteredMessages = [NSMutableArray arrayWithCapacity:_maxMessages];
+        
+        // Register logger
+        [DDLog addLogger:self];
     }
     return self;
 }
 
-- (void)setSearchBar:(UISearchBar *)searchBar
-{
-    _searchBar = searchBar;
-    
-    // Customize searchBar keyboard's return key
-    NSArray * subviewsToCheck = SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0") ? ((UIView *)_searchBar.subviews[0]).subviews :
-    _searchBar.subviews;
-    for(UIView * view in subviewsToCheck)
-    {
-        if([view conformsToProtocol:@protocol(UITextInputTraits)])
-        {
-            ((UITextField *)view).returnKeyType = UIReturnKeyDone;
-            ((UITextField *)view).enablesReturnKeyAutomatically = NO;
-        }
-    }
-}
-
-#pragma mark - Loggin messages
+#pragma mark - Logger
 
 - (void)logMessage:(DDLogMessage *)logMessage
 {
@@ -111,69 +97,63 @@
     }
 }
 
+#pragma mark - Log formatter
+
 - (NSString *)formatLogMessage:(DDLogMessage *)logMessage
 {
-    NSString * string;
     if (self->formatter)
     {
-        string = [self->formatter formatLogMessage:logMessage];
+        return [self->formatter formatLogMessage:logMessage];
     }
     else
     {
-        string = [NSString stringWithFormat:@"%@:%d %@",
-                  logMessage.fileName,
-                  logMessage->lineNumber,
-                  logMessage->logMsg];
+        return [NSString stringWithFormat:@"%@:%d %@",
+                logMessage.fileName,
+                logMessage->lineNumber,
+                logMessage->logMsg];
     }
-    return string;
 }
 
 - (NSString *)formatShortLogMessage:(DDLogMessage *)logMessage
 {
-    return [[logMessage->logMsg
-             stringByReplacingOccurrencesOfString:@"  " withString:@""]
-            stringByReplacingOccurrencesOfString:@"\n" withString:@" "];
+    if (self.shortLogFormatter)
+    {
+        return [self.shortLogFormatter formatLogMessage:logMessage];
+    }
+    else
+    {
+        return [[logMessage->logMsg
+                 stringByReplacingOccurrencesOfString:@"  " withString:@""]
+                stringByReplacingOccurrencesOfString:@"\n" withString:@" "];
+    }
 }
 
 #pragma mark - Handling the table view
 
-- (void)setTableView:(UITableView *)tableView
-{
-    _tableView = tableView;
-    
-    // Make sure we are the data source and delegate
-    _tableView.delegate = self;
-    _tableView.dataSource = self;
-}
-
 - (void)setTableViewNeedsRefresh
 {
-    // Refresh table
-    if (_tableView)
+    @synchronized(self)
     {
-        @synchronized(self)
+        // Already scheduled?
+        if (_updateScheduled)
+            return;
+        
+        // Too soon?
+        if ([_lastUpdate timeIntervalSinceNow] > -_minIntervalToUpdate)
         {
-            // Already scheduled?
-            if (_updateScheduled)
-                return;
-            
-            // Too soon?
-            if ([_lastUpdate timeIntervalSinceNow] > -_minIntervalToUpdate)
-            {
-                // Schedule
-                _updateScheduled = YES;
-                dispatch_after(-[_lastUpdate timeIntervalSinceNow], dispatch_get_main_queue(), ^(void)
-                               {
-                                   _updateScheduled = NO;
-                                   [self refreshTableView];
-                               });
-            }
-            
-            // Update directly
-            else
-            {
-                [self refreshTableView];
-            }
+            // Schedule
+            _updateScheduled = YES;
+            dispatch_after(-[_lastUpdate timeIntervalSinceNow], dispatch_get_main_queue(), ^(void)
+                           {
+                               _updateScheduled = NO;
+                               [self refreshTableView];
+                           });
+        }
+        
+        // Update directly
+        else
+        {
+            [self refreshTableView];
         }
     }
 }
@@ -192,7 +172,7 @@
     @catch (NSException * exception)
     {
         NSLog(@"EXCEPTION while updating Dashboard: %@", exception.reason);
-        [_tableView reloadData];
+        [self.tableView reloadData];
     }
     
     //    NSLog(@"!!! %d", _messagesBuffer.count);
@@ -207,11 +187,11 @@
     {
         @try
         {
-            [_tableView beginUpdates];
+            [self.tableView beginUpdates];
             
             // Remove items?
-            NSUInteger tableCount = [_tableView numberOfRowsInSection:0];
-            //        NSLog(@"••• %d", tableCount);
+            NSUInteger tableCount = [self.tableView numberOfRowsInSection:0];
+            // NSLog(@"••• %d", tableCount);
             NSInteger removeCount = tableCount + offset - _maxMessages;
             if (removeCount > 0)
             {
@@ -221,10 +201,10 @@
                     [indexPaths addObject:[NSIndexPath indexPathForRow:i
                                                              inSection:0]];
                 }
-                [_tableView deleteRowsAtIndexPaths:indexPaths
-                                  withRowAnimation:UITableViewRowAnimationFade];
-                //            NSLog(@"--- %d", indexPaths.count);
-                //            NSLog(@"--- %@", indexPaths);
+                [self.tableView deleteRowsAtIndexPaths:indexPaths
+                                      withRowAnimation:UITableViewRowAnimationFade];
+                // NSLog(@"--- %d", indexPaths.count);
+                // NSLog(@"--- %@", indexPaths);
             }
             
             // Insert items
@@ -234,12 +214,12 @@
                 [indexPaths addObject:[NSIndexPath indexPathForRow:i
                                                          inSection:0]];
             }
-            [_tableView insertRowsAtIndexPaths:indexPaths
-                              withRowAnimation:UITableViewRowAnimationFade];
-            //        NSLog(@"+++ %d", indexPaths.count);
-            //        NSLog(@"+++ %@", indexPaths);
+            [self.tableView insertRowsAtIndexPaths:indexPaths
+                                  withRowAnimation:UITableViewRowAnimationFade];
+            // NSLog(@"+++ %d", indexPaths.count);
+            // NSLog(@"+++ %@", indexPaths);
             
-            [_tableView endUpdates];
+            [self.tableView endUpdates];
             
             return;
         }
@@ -250,7 +230,7 @@
     }
     
     // Full refresh needed
-    [_tableView reloadData];
+    [self.tableView reloadData];
 }
 
 #pragma mark - Table's delegate/data source
@@ -447,7 +427,7 @@ didDeselectRowAtIndexPath:(NSIndexPath *)indexPath
         _messagesBuffer = [NSArray arrayWithArray:_messages];
     }
     
-    [_tableView reloadData];
+    [self.tableView reloadData];
 }
 
 - (void)searchBar:(UISearchBar *)searchBar
@@ -471,7 +451,7 @@ selectedScopeButtonIndexDidChange:(NSInteger)selectedScope
     if ([_currentSearchText isEqualToString:searchText])
         return;
     
-    _currentSearchText = _searchBar.text;
+    _currentSearchText = searchBar.text;
     [self updateFilteredMessages];
 }
 
@@ -483,8 +463,9 @@ selectedScopeButtonIndexDidChange:(NSInteger)selectedScope
 - (BOOL)searchBarShouldBeginEditing:(UISearchBar *)searchBar
 {
     // Make dashboard fullscreen if needed
-    PTEDashboard * dashboard = [_tableView.window isKindOfClass:[PTEDashboard class]] ? (PTEDashboard *)_tableView.window : nil;
-    if (dashboard && !dashboard.isMaximized)
+    PTEDashboard * dashboard = (PTEDashboard *)self.tableView.window;
+    if ([dashboard isKindOfClass:[PTEDashboard class]] &&
+        !dashboard.isMaximized)
     {
         dashboard.maximized = YES;
     }
