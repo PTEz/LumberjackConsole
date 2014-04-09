@@ -18,6 +18,8 @@
 //  limitations under the License.
 //
 
+#ifdef COCOAPODS_POD_AVAILABLE_NBULog
+
 /**
  A table view used to dynamically adjust log levels.
  
@@ -43,4 +45,6 @@
 @property (weak, nonatomic) IBOutlet UIStepper * levelStepper;
 
 @end
+
+#endif
 
