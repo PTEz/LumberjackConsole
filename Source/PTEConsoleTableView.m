@@ -69,5 +69,15 @@
     return logger;
 }
 
+- (IBAction)clearConsole:(id)sender
+{
+    [self.logger clearConsole];
+}
+
+- (IBAction)addMarker:(id)sender
+{
+    [self.logger addMarker];
+}
+
 @end
 

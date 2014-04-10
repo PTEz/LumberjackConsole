@@ -31,6 +31,16 @@
 #define NSLogDebug(frmt, ...)    do{ if(LOG_LEVEL >= 4) NSLog((frmt), ##__VA_ARGS__); } while(0)
 #define NSLogVerbose(frmt, ...)  do{ if(LOG_LEVEL >= 5) NSLog((frmt), ##__VA_ARGS__); } while(0)
 
+// Private marker message class
+@interface PTEMarkerLogMessage : DDLogMessage
+
+@end
+
+@implementation PTEMarkerLogMessage
+
+@end
+
+
 @implementation PTEConsoleLogger
 {
     // Managing incoming messages
@@ -125,6 +135,29 @@
         // Trigger update
         [self updateOrScheduleTableViewUpdateInConsoleQueue];
     });
+}
+
+#pragma mark - Methods
+
+- (void)clearConsole
+{
+    // The method is called from the main queue
+    dispatch_async(_consoleQueue, ^
+                   {
+                       // Clear all messages
+                       [_newMessagesBuffer removeAllObjects];
+                       [_messages removeAllObjects];
+                       [_filteredMessages removeAllObjects];
+                       
+                       [self updateTableViewInConsoleQueue];
+                   });
+}
+
+- (void)addMarker
+{
+    PTEMarkerLogMessage * marker = PTEMarkerLogMessage.new;
+    marker->logMsg = [NSString stringWithFormat:@"Marker %@", NSDate.date];
+    [self logMessage:marker];
 }
 
 #pragma mark - Handling new messages
@@ -350,38 +383,55 @@ didDeselectRowAtIndexPath:(NSIndexPath *)indexPath
 - (UITableViewCell *)tableView:(UITableView *)tableView
          cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell * cell = [tableView dequeueReusableCellWithIdentifier:@"logMessage"];
+    // A marker?
+    DDLogMessage * logMessage = (_filteringEnabled ? _filteredMessages : _messages)[indexPath.row];
+    BOOL marker = [logMessage isKindOfClass:[PTEMarkerLogMessage class]];
+    
+    // Load cell
+    NSString * identifier = marker ? @"marker" : @"logMessage";
+    UITableViewCell * cell = [tableView dequeueReusableCellWithIdentifier:identifier];
     UILabel * label;
     if (!cell)
     {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault
-                                      reuseIdentifier:@"logMessage"];
+                                      reuseIdentifier:identifier];
         cell.clipsToBounds = YES;
-        cell.backgroundColor = [UIColor clearColor];
+        cell.backgroundColor = UIColor.clearColor;
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         label = [self labelForNewCell];
         label.frame = cell.contentView.bounds;
         [cell.contentView addSubview:label];
+        
+        if (marker)
+        {
+            cell.backgroundColor = [UIColor colorWithWhite:0.5 alpha:0.5];
+            label.textAlignment = NSTextAlignmentCenter;
+            cell.userInteractionEnabled = NO;
+        }
     }
     else
     {
         label = (UILabel *)cell.contentView.subviews[0];
     }
     
-    DDLogMessage * logMessage = (_filteringEnabled ? _filteredMessages : _messages)[indexPath.row];
-    
     // Configure the label
-    switch (logMessage->logFlag)
+    if (marker)
     {
-        case LOG_FLAG_ERROR : label.textColor = [UIColor redColor];         break;
-        case LOG_FLAG_WARN  : label.textColor = [UIColor orangeColor];      break;
-        case LOG_FLAG_INFO  : label.textColor = [UIColor greenColor];       break;
-        case LOG_FLAG_DEBUG : label.textColor = [UIColor whiteColor];       break;
-        default             : label.textColor = [UIColor lightGrayColor];   break;
+        label.text = logMessage->logMsg;
     }
-    
-    label.text = [self textForCellFromTableView:tableView
-                                    atIndexPath:indexPath];
+    else
+    {
+        switch (logMessage->logFlag)
+        {
+            case LOG_FLAG_ERROR : label.textColor = [UIColor redColor];         break;
+            case LOG_FLAG_WARN  : label.textColor = [UIColor orangeColor];      break;
+            case LOG_FLAG_INFO  : label.textColor = [UIColor greenColor];       break;
+            case LOG_FLAG_DEBUG : label.textColor = [UIColor whiteColor];       break;
+            default             : label.textColor = [UIColor lightGrayColor];   break;
+        }
+        label.text = [self textForCellFromTableView:tableView
+                                        atIndexPath:indexPath];
+    }
     
     return cell;
 }
@@ -428,13 +478,14 @@ didDeselectRowAtIndexPath:(NSIndexPath *)indexPath
 
 - (BOOL)messagePassesFilter:(DDLogMessage *)message
 {
-    // Log flag matches AND (no search text OR contains search text)
-    return ((message->logFlag & _currentLogLevel) &&
-            (_currentSearchText.length == 0 ||
-             [[self formatLogMessage:message] rangeOfString:_currentSearchText
-                                                    options:(NSCaseInsensitiveSearch |
-                                                             NSDiacriticInsensitiveSearch |
-                                                             NSWidthInsensitiveSearch)].location != NSNotFound));
+    // Message is a marker OR (Log flag matches AND (no search text OR contains search text))
+    return ([message isKindOfClass:[PTEMarkerLogMessage class]] ||
+            ((message->logFlag & _currentLogLevel) &&
+             (_currentSearchText.length == 0 ||
+              [[self formatLogMessage:message] rangeOfString:_currentSearchText
+                                                     options:(NSCaseInsensitiveSearch |
+                                                              NSDiacriticInsensitiveSearch |
+                                                              NSWidthInsensitiveSearch)].location != NSNotFound)));
 }
 
 #pragma mark - Search bar delegate

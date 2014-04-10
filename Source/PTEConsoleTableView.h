@@ -42,5 +42,15 @@
 /// The UISearchBar used to filter log messages.
 @property (weak, nonatomic) IBOutlet    UISearchBar * searchBar;
 
+/// @name Actions
+
+/// Clear all console messages.
+/// @param sender The sender object.
+- (IBAction)clearConsole:(id)sender;
+
+/// Add a marker object to the console.
+/// @param sender The sender object.
+- (IBAction)addMarker:(id)sender;
+
 @end
 

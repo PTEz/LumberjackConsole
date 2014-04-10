@@ -51,5 +51,13 @@
 /// An optional formatter to be used for shortened log messages.
 @property (atomic, strong)              id<DDLogFormatter> shortLogFormatter;
 
+/// @name Methods
+
+/// Clear all console messages.
+- (void)clearConsole;
+
+/// Add a marker object to the console.
+- (void)addMarker;
+
 @end
 
