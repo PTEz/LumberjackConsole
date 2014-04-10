@@ -34,6 +34,7 @@
 @implementation PTEConsoleLogger
 {
     // Managing incoming messages
+    dispatch_queue_t _consoleQueue;
     NSMutableArray * _messages;             // All currently displayed messages
     NSMutableArray * _newMessagesBuffer;    // Messages not yet added to _messages
     
@@ -65,6 +66,9 @@
         _lastUpdate = NSDate.date;
         _minIntervalToUpdate = 0.5;
         _currentLogLevel = LOG_LEVEL_VERBOSE;
+        
+        // Init queue
+        _consoleQueue = dispatch_queue_create("console_queue", NULL);
         
         // Init message arrays
         _messages = [NSMutableArray arrayWithCapacity:_maxMessages];
@@ -111,20 +115,21 @@
 
 - (void)logMessage:(DDLogMessage *)logMessage
 {
-    dispatch_async(self->loggerQueue, ^
+    // The method is called from the logger queue
+    dispatch_async(_consoleQueue, ^
     {
         // Add new message to buffer
         [_newMessagesBuffer insertObject:logMessage
                                  atIndex:0];
 
         // Trigger update
-        [self updateOrScheduleTableViewUpdateInLoggerQueue];
+        [self updateOrScheduleTableViewUpdateInConsoleQueue];
     });
 }
 
 #pragma mark - Handling new messages
 
-- (void)updateOrScheduleTableViewUpdateInLoggerQueue
+- (void)updateOrScheduleTableViewUpdateInConsoleQueue
 {
     if (_updateScheduled)
         return;
@@ -134,19 +139,19 @@
     if (timeToWaitForNextUpdate > 0)
     {
         _updateScheduled = YES;
-        dispatch_after(timeToWaitForNextUpdate, self->loggerQueue, ^(void)
+        dispatch_after(timeToWaitForNextUpdate, _consoleQueue, ^(void)
                        {
-                           [self updateTableViewInLoggerQueue];
+                           [self updateTableViewInConsoleQueue];
                        });
     }
     // Update directly
     else
     {
-        [self updateTableViewInLoggerQueue];
+        [self updateTableViewInConsoleQueue];
     }
 }
 
-- (void)updateTableViewInLoggerQueue
+- (void)updateTableViewInConsoleQueue
 {
     // Add and trim block
     __block NSInteger itemsToRemoveCount;
@@ -202,7 +207,7 @@
     _lastUpdate = NSDate.date;
     [_newMessagesBuffer removeAllObjects];
     
-    // Update table view
+    // Update table view (dispatch sync to ensure the messages' arrayt doesn't get modified)
     dispatch_sync(dispatch_get_main_queue(), ^
                   {
                       // Completely update table view?
@@ -436,7 +441,8 @@ didDeselectRowAtIndexPath:(NSIndexPath *)indexPath
 
 - (void)searchBarStateChanged
 {
-    dispatch_async(self->loggerQueue, ^
+    // The method is called from the main queue
+    dispatch_async(_consoleQueue, ^
     {
         // Filtering enabled?
         _filteringEnabled = (_currentSearchText.length > 0 ||        // Some text input
@@ -449,7 +455,7 @@ didDeselectRowAtIndexPath:(NSIndexPath *)indexPath
         }
         
         // Update
-        [self updateTableViewInLoggerQueue];
+        [self updateTableViewInConsoleQueue];
     });
 }
 
