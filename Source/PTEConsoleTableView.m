@@ -24,6 +24,35 @@
 
 @implementation PTEConsoleTableView
 
+- (instancetype)initWithFrame:(CGRect)frame
+                        style:(UITableViewStyle)style
+{
+    self = [super initWithFrame:frame
+                          style:style];
+    if (self)
+    {
+        [self commonInit];
+    }
+    return self;
+}
+
+- (instancetype)initWithCoder:(NSCoder *)coder
+{
+    self = [super initWithCoder:coder];
+    if (self)
+    {
+        [self commonInit];
+    }
+    return self;
+}
+
+- (void)commonInit
+{
+    // Default settings
+    self.allowsMultipleSelection = YES;
+    self.rowHeight = 20.0;
+}
+
 - (void)setLogger:(PTEConsoleLogger *)logger
 {
     _logger = logger;
