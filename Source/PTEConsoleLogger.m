@@ -461,6 +461,37 @@ didDeselectRowAtIndexPath:(NSIndexPath *)indexPath
     return [NSString stringWithFormat:@" %@ %@", prefix, [self formatShortLogMessage:logMessage]];
 }
 
+#pragma mark - Copying text
+
+- (BOOL)tableView:(UITableView *)tableView
+shouldShowMenuForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return YES;
+}
+
+- (BOOL)tableView:(UITableView *)tableView
+ canPerformAction:(SEL)action
+forRowAtIndexPath:(NSIndexPath *)indexPath
+       withSender:(id)sender
+{
+    return action == @selector(copy:);
+}
+
+- (void)tableView:(UITableView *)tableView
+    performAction:(SEL)action
+forRowAtIndexPath:(NSIndexPath *)indexPath
+       withSender:(id)sender
+{
+    if (action == @selector(copy:))
+    {
+        DDLogMessage * logMessage = (_filteringEnabled ? _filteredMessages : _messages)[indexPath.row];
+        NSString * textToCopy = [self formatLogMessage:logMessage];
+        UIPasteboard.generalPasteboard.string = textToCopy;
+        
+        NSLogInfo(@"Copied: %@", textToCopy);
+    }
+}
+
 #pragma mark - Message filtering
 
 - (NSMutableArray *)filterMessages:(NSArray *)messages
