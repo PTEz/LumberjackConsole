@@ -74,7 +74,7 @@
         _fontSize = 13.0;
         _font = [UIFont systemFontOfSize:_fontSize];
         _lastUpdate = NSDate.date;
-        _minIntervalToUpdate = 0.5;
+        _minIntervalToUpdate = 0.3;
         _currentLogLevel = LOG_LEVEL_VERBOSE;
         
         // Init queue
@@ -88,6 +88,22 @@
         [DDLog addLogger:self];
     }
     return self;
+}
+
+#pragma mark - Logger
+
+- (void)logMessage:(DDLogMessage *)logMessage
+{
+    // The method is called from the logger queue
+    dispatch_async(_consoleQueue, ^
+    {
+        // Add new message to buffer
+        [_newMessagesBuffer insertObject:logMessage
+                                 atIndex:0];
+
+        // Trigger update
+        [self updateOrScheduleTableViewUpdateInConsoleQueue];
+    });
 }
 
 #pragma mark - Log formatter
@@ -119,22 +135,6 @@
                  stringByReplacingOccurrencesOfString:@"  " withString:@""]
                 stringByReplacingOccurrencesOfString:@"\n" withString:@" "];
     }
-}
-
-#pragma mark - Logger
-
-- (void)logMessage:(DDLogMessage *)logMessage
-{
-    // The method is called from the logger queue
-    dispatch_async(_consoleQueue, ^
-    {
-        // Add new message to buffer
-        [_newMessagesBuffer insertObject:logMessage
-                                 atIndex:0];
-
-        // Trigger update
-        [self updateOrScheduleTableViewUpdateInConsoleQueue];
-    });
 }
 
 #pragma mark - Methods
@@ -169,12 +169,15 @@
     
     // Schedule?
     NSTimeInterval timeToWaitForNextUpdate = _minIntervalToUpdate + _lastUpdate.timeIntervalSinceNow;
+    NSLogVerbose(@"timeToWaitForNextUpdate: %@", @(timeToWaitForNextUpdate));
     if (timeToWaitForNextUpdate > 0)
     {
         _updateScheduled = YES;
-        dispatch_after(timeToWaitForNextUpdate, _consoleQueue, ^(void)
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(timeToWaitForNextUpdate * NSEC_PER_SEC)), _consoleQueue, ^
                        {
                            [self updateTableViewInConsoleQueue];
+                           
+                           _updateScheduled = NO;
                        });
     }
     // Update directly
@@ -186,6 +189,8 @@
 
 - (void)updateTableViewInConsoleQueue
 {
+    _lastUpdate = NSDate.date;
+    
     // Add and trim block
     __block NSInteger itemsToRemoveCount;
     __block NSInteger itemsToInsertCount;
@@ -235,9 +240,7 @@
         }
     }
     
-    // Clean state
-    _updateScheduled = NO;
-    _lastUpdate = NSDate.date;
+    // Empty buffer
     [_newMessagesBuffer removeAllObjects];
     
     // Update table view (dispatch sync to ensure the messages' arrayt doesn't get modified)
