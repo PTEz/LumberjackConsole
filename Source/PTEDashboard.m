@@ -185,7 +185,7 @@ static PTEDashboard * _sharedDashboard;
     // Hide adjust levels controller?
     if (self.rootViewController.presentedViewController)
     {
-        [self.rootViewController dismissViewControllerAnimated:YES
+        [self.rootViewController dismissViewControllerAnimated:NO
                                                     completion:NULL];
     }
     // Present adjust levels controller
@@ -193,7 +193,7 @@ static PTEDashboard * _sharedDashboard;
     {
         UIViewController * controller = [self.rootViewController.storyboard instantiateViewControllerWithIdentifier:@"adjustLevels"];
         [self.rootViewController presentViewController:controller
-                                              animated:YES
+                                              animated:NO
                                             completion:NULL];
     }
 }
