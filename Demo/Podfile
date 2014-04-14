@@ -2,11 +2,11 @@
 platform :ios, '5.0'
 
 # For regular projects
-pod 'CocoaLumberjack'
-#pod 'LumberjackConsole'
+pod 'CocoaLumberjack', :head
+# pod 'LumberjackConsole'
 
 # Optional for dynamic log levels
-#pod 'NBULog'
+# pod 'NBULog'
 
 # For development
 pod 'LumberjackConsole', :path => '../'

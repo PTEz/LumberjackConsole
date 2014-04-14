@@ -22,7 +22,7 @@
 
 @interface ViewController : UIViewController
 
-@property (weak, nonatomic) IBOutlet UITableView * customConsoleTableView;
+@property (weak, nonatomic) IBOutlet UISlider * paceSlider;
 
 @end
 

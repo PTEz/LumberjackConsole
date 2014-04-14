@@ -19,6 +19,7 @@
 //
 
 #import "AppDelegate.h"
+#import <CocoaLumberjack/DDLog.h>
 #import <LumberjackConsole/PTEDashboard.h>
 
 static int ddLogLevel = LOG_LEVEL_VERBOSE;
@@ -29,50 +30,12 @@ static int ddLogLevel = LOG_LEVEL_VERBOSE;
 {
 #ifndef MY_PRODUCTION_MACRO
     // Add the console dashboard for testing builds
-    [DDLog addLogger:[PTEDashboard sharedDashboard].logger];
+//    [PTEDashboard.sharedDashboard show];
     
     DDLogInfo(@"Added console dashboard");
 #endif
     
-    [self generateRandomLogMessage];
-    
     return YES;
-}
-
-- (void)generateRandomLogMessage
-{
-    // Random message format
-    NSString * format = (arc4random() % 2) ? @"Short %@ log message" : @"Long\nmulti-line\n%@\nlog\nmessage, TAP ME!";
-    
-    // Random level
-    NSUInteger randomLevel = arc4random() % 5;
-    
-    // Log
-    switch (randomLevel)
-    {
-        case 4:
-            DDLogError(format, @"error");
-            break;
-        case 3:
-            DDLogWarn(format, @"warning");
-            break;
-        case 2:
-            DDLogInfo(format, @"information");
-            break;
-        case 1:
-            DDLogDebug(format, @"debug");
-            break;
-        default:
-            DDLogVerbose(format, @"verbose");
-            break;
-    }
-    
-    // Schedule next message
-    double delayInSeconds = (arc4random() % 100) / 10.0;
-    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
-    dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
-        [self generateRandomLogMessage];
-    });
 }
 
 @end

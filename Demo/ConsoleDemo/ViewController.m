@@ -19,25 +19,53 @@
 //
 
 #import "ViewController.h"
-#import <LumberjackConsole/PTEConsoleLogger.h>
+#import <CocoaLumberjack/DDLog.h>
 
 static int ddLogLevel = LOG_LEVEL_VERBOSE;
 
 @implementation ViewController
-{
-    PTEConsoleLogger * _customConsoleLogger;
-}
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	
-    // Add a custom console
-    _customConsoleLogger = [PTEConsoleLogger new];
-    _customConsoleLogger.tableView = self.customConsoleTableView;
-    [DDLog addLogger:_customConsoleLogger];
     
-    DDLogInfo(@"Added a custom console logger");
+    [self generateRandomLogMessage];
+}
+
+- (void)generateRandomLogMessage
+{
+    // Random message format
+    NSString * format = (arc4random() % 2) ? @"Short %@ log message" : @"Long\nmulti-line\n%@\nlog\nmessage, TAP ME!";
+    
+    // Random level
+    NSUInteger randomLevel = arc4random() % 5;
+    
+    // Log
+    switch (randomLevel)
+    {
+        case 4:
+            DDLogError(format, @"error");
+            break;
+        case 3:
+            DDLogWarn(format, @"warning");
+            break;
+        case 2:
+            DDLogInfo(format, @"information");
+            break;
+        case 1:
+            DDLogDebug(format, @"debug");
+            break;
+        default:
+            DDLogVerbose(format, @"verbose");
+            break;
+    }
+    
+    // Schedule next message
+    double delayInSeconds = (arc4random() % 100) / pow(10.0, self.paceSlider.value);
+    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
+    dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+        [self generateRandomLogMessage];
+    });
 }
 
 @end
