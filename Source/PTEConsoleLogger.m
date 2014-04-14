@@ -361,7 +361,7 @@ heightForRowAtIndexPath:(NSIndexPath *)indexPath
                                                CGFLOAT_MAX)];
     }
     
-    return MAX(size.height, 20.0);
+    return size.height + 20.0;
 }
 
 - (NSIndexPath *)tableView:(UITableView *)tableView
