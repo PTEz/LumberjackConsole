@@ -21,16 +21,8 @@ Pod::Spec.new do |s|
     s.dependency 'NBUCore', '>= 2.0.2'
     s.dependency 'CocoaLumberjack', '>= 1.6.4'
     
-    s.subspec 'Base' do |sub|
-        sub.source_files = 'Source/*.{h,m}'
-        sub.resources    = 'Source/*.{storyboard}'
-    end
-    
-    s.subspec 'AdjustLevels' do |sub|
-        s.dependency 'LumberjackConsole/Base'
-        sub.source_files = 'Source/Adjust Levels/*.{h,m}'
-        sub.resources    = 'Source/Adjust Levels/*.{xib}'
-    end
+    s.source_files = 'Source/*.{h,m}'
+    s.resources    = 'Source/*.{storyboard}'
     
 end
 

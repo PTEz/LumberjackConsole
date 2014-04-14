@@ -6,17 +6,6 @@ PODS:
     - CocoaLumberjack/Core
   - LumberjackConsole (2.0.0):
     - CocoaLumberjack (>= 1.6.4)
-    - LumberjackConsole/AdjustLevels
-    - LumberjackConsole/Base
-    - LumberjackConsole/Base
-    - NBUCore (>= 2.0.2)
-  - LumberjackConsole/AdjustLevels (2.0.0):
-    - CocoaLumberjack (>= 1.6.4)
-    - LumberjackConsole/Base
-    - NBUCore (>= 2.0.2)
-  - LumberjackConsole/Base (2.0.0):
-    - CocoaLumberjack (>= 1.6.4)
-    - LumberjackConsole/Base
     - NBUCore (>= 2.0.2)
   - NBUCore (2.0.2)
 
@@ -30,7 +19,7 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   CocoaLumberjack: 020378ec400d658923bf5887178394f65f052c90
-  LumberjackConsole: 73d78d6cdca571286aaf28f49477f2ffcaf10de9
+  LumberjackConsole: dab5f8bbf224436ce95e99866c684dc35043edcf
   NBUCore: 85601dd90960d52151d19ae2a42765e0416c4dd8
 
 COCOAPODS: 0.31.1

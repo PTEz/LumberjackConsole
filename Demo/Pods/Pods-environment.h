@@ -30,18 +30,6 @@
 #define COCOAPODS_VERSION_MINOR_LumberjackConsole 0
 #define COCOAPODS_VERSION_PATCH_LumberjackConsole 0
 
-// LumberjackConsole/AdjustLevels
-#define COCOAPODS_POD_AVAILABLE_LumberjackConsole_AdjustLevels
-#define COCOAPODS_VERSION_MAJOR_LumberjackConsole_AdjustLevels 2
-#define COCOAPODS_VERSION_MINOR_LumberjackConsole_AdjustLevels 0
-#define COCOAPODS_VERSION_PATCH_LumberjackConsole_AdjustLevels 0
-
-// LumberjackConsole/Base
-#define COCOAPODS_POD_AVAILABLE_LumberjackConsole_Base
-#define COCOAPODS_VERSION_MAJOR_LumberjackConsole_Base 2
-#define COCOAPODS_VERSION_MINOR_LumberjackConsole_Base 0
-#define COCOAPODS_VERSION_PATCH_LumberjackConsole_Base 0
-
 // NBUCore
 #define COCOAPODS_POD_AVAILABLE_NBUCore
 #define COCOAPODS_VERSION_MAJOR_NBUCore 2
