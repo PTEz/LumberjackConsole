@@ -16,14 +16,17 @@ On-device [CocoaLumberjack](https://github.com/robbiehanson/CocoaLumberjack) con
 * Support log modules.
 * Auto-enable [XcodeColors](https://github.com/robbiehanson/XcodeColors) when present.
 * No need to declare `ddLogLevel`.
+* Filter messages by level and text contents.
+* Expand/collapse long messages.
+* Long tap to copy log messages.
+* Insert markers.
+* Clear console.
 
 ### ToDo
 
-* Clean up table view's data source.
 * Improve rotation support.
-* Clear log and "marker" messages.
-* Long tap to copy text.
 * Read crash reports.
+* Keep scrolled area when not at the top.
 
 ## Demo
 
@@ -56,32 +59,21 @@ Add its logger for testing builds:
 ```obj-c
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-#ifndef MY_PRODUCTION_MACRO
+#ifndef PRODUCTION
         // Add the console dashboard for testing builds
-        [DDLog addLogger:[PTEDashboard sharedDashboard].logger]; // <- If not using NBULog
-        // [NBULog addDashboardLogger];                          // <- If using NBULog
+        [PTEDashboard.sharedDashboard show];                // <- If not using NBULog
+        // [NBULog addDashboardLogger];                     // <- If using NBULog
         
         DDLogInfo(@"Added console dashboard");
 #endif
         
         // ...
-        
-        return YES;
 }
 ```
 
 ### b) Embeded Console
 
-You can also embed the console into your own `UITableView`:
-
-```obj-c
-    // Add a custom console
-    _customConsoleLogger = [PTEConsoleLogger new];
-    _customConsoleLogger.tableView = self.customConsoleTableView;
-    [DDLog addLogger:_customConsoleLogger];
-    
-    DDLogInfo(@"Added a custom console logger");
-```
+Simply add a `PTEConsoleTableView` instance to your view hierarchy.
 
 ## More
 
@@ -89,7 +81,7 @@ When coupled with [NBULog](https://github.com/CyberAgent/iOS-NBULog) you can dyn
 
 ![Screenshot 3](http://ptez.github.io/LumberjackConsole/images/screenshot3.png)
 
-You log level settings are saved to `NSUserDefaults`.
+Your log level settings are saved to `NSUserDefaults`.
 
 ## Documentation
 
