@@ -28,9 +28,9 @@ static int ddLogLevel = LOG_LEVEL_VERBOSE;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-#ifndef MY_PRODUCTION_MACRO
+#ifndef PRODUCTION
     // Add the console dashboard for testing builds
-//    [PTEDashboard.sharedDashboard show];
+    [PTEDashboard.sharedDashboard show];
     
     DDLogInfo(@"Added console dashboard");
 #endif

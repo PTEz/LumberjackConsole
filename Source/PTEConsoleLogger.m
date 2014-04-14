@@ -254,7 +254,6 @@
                       // Completely update table view?
                       if (itemsToKeepCount == 0 || forceReload)
                       {
-                          
                           [self.tableView reloadData];
                           
                       }
