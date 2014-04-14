@@ -217,7 +217,7 @@
     
     // Update regular messages' array
     addAndTrimMessages(_messages, _newMessagesBuffer);
-    NSLogDebug(@"Messages added: %@ kept: %@ removed: %@", @(itemsToInsertCount), @(itemsToKeepCount), @(itemsToRemoveCount));
+    NSLogDebug(@"Messages to add: %@ keep: %@ remove: %@", @(itemsToInsertCount), @(itemsToKeepCount), @(itemsToRemoveCount));
     
     // Handle filtering
     BOOL forceReload = NO;
@@ -232,7 +232,7 @@
         
         // Update filtered messages' array
         addAndTrimMessages(_filteredMessages, [self filterMessages:_newMessagesBuffer]);
-        NSLogDebug(@"Filtered messages added: %@ kept: %@ removed: %@", @(itemsToInsertCount), @(itemsToKeepCount), @(itemsToRemoveCount));
+        NSLogDebug(@"Filtered messages to add: %@ keep: %@ remove: %@", @(itemsToInsertCount), @(itemsToKeepCount), @(itemsToRemoveCount));
     }
     else
     {
@@ -298,9 +298,14 @@
         {
             [self.tableView deleteRowsAtIndexPaths:removePaths
                                   withRowAnimation:UITableViewRowAnimationFade];
+            NSLogVerbose(@"deleteRowsAtIndexPaths: %@", removePaths);
         }
-        [self.tableView insertRowsAtIndexPaths:insertPaths
-                              withRowAnimation:UITableViewRowAnimationFade];
+        if (itemsToInsertCount > 0)
+        {
+            [self.tableView insertRowsAtIndexPaths:insertPaths
+                                  withRowAnimation:UITableViewRowAnimationFade];
+        }
+        NSLogVerbose(@"insertRowsAtIndexPaths: %@", insertPaths);
         [self.tableView endUpdates];
     }
     @catch (NSException * exception)
@@ -316,6 +321,7 @@
 - (NSInteger)tableView:(UITableView *)tableView
  numberOfRowsInSection:(NSInteger)section
 {
+    NSLogInfo(@"numberOfRowsInSection: %@", @((_filteringEnabled ? _filteredMessages : _messages).count));
     return (_filteringEnabled ? _filteredMessages : _messages).count;
 }
 
@@ -396,6 +402,7 @@ heightForRowAtIndexPath:(NSIndexPath *)indexPath
     label.font = _font;
     label.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
     label.numberOfLines = 0;
+    
     return label;
 }
 
