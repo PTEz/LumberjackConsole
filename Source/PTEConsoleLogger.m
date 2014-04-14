@@ -59,6 +59,9 @@
     NSInteger _currentLogLevel;
     NSMutableArray * _filteredMessages;
     
+    // Managing expanding/collapsing messages
+    NSMutableSet * _expandedMessages;
+    
     // UI
     UIFont * _font;
     CGFloat _fontSize;
@@ -80,9 +83,10 @@
         // Init queue
         _consoleQueue = dispatch_queue_create("console_queue", NULL);
         
-        // Init message arrays
+        // Init message arrays and sets
         _messages = [NSMutableArray arrayWithCapacity:_maxMessages];
         _newMessagesBuffer = NSMutableArray.array;
+        _expandedMessages = NSMutableSet.set;
         
         // Register logger
         [DDLog addLogger:self];
@@ -148,6 +152,7 @@
                        [_newMessagesBuffer removeAllObjects];
                        [_messages removeAllObjects];
                        [_filteredMessages removeAllObjects];
+                       [_expandedMessages removeAllObjects];
                        
                        [self updateTableViewInConsoleQueue];
                    });
@@ -317,15 +322,15 @@
 - (CGFloat)tableView:(UITableView *)tableView
 heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    // Unselected cell?
-    if (![tableView.indexPathsForSelectedRows containsObject:indexPath])
+    // Expanded cell?
+    DDLogMessage * logMessage = (_filteringEnabled ? _filteredMessages : _messages)[indexPath.row];
+    if (![_expandedMessages containsObject:logMessage])
     {
         return 20.0;
     }
     
-    // Selected cell
-    NSString * string = [self textForCellFromTableView:tableView
-                                           atIndexPath:indexPath];
+    // Collapsed cell
+    NSString * string = [self textForCellWithLogMessage:logMessage];
     CGSize size;
     if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0"))
     {
@@ -353,24 +358,35 @@ heightForRowAtIndexPath:(NSIndexPath *)indexPath
     return MAX(size.height, 20.0);
 }
 
-- (void)tableView:(UITableView *)tableView
-didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+- (NSIndexPath *)tableView:(UITableView *)tableView
+  willSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    [tableView beginUpdates];
-    [tableView endUpdates];
+    NSLogInfo(@"willSelectRowAtIndexPath: %@ Expanded messages: %@", indexPath, _expandedMessages);
+    
+    // Remove/add row to expanded messages
+    DDLogMessage * logMessage = (_filteringEnabled ? _filteredMessages : _messages)[indexPath.row];
+    if ([_expandedMessages containsObject:logMessage])
+    {
+        [_expandedMessages removeObject:logMessage];
+    }
+    else
+    {
+        [_expandedMessages addObject:logMessage];
+    }
+    
+    // Update cell's text
     UILabel * label = (UILabel *)[tableView cellForRowAtIndexPath:indexPath].contentView.subviews[0];
-    label.text = [self textForCellFromTableView:tableView
-                                    atIndexPath:indexPath];
-}
-
-- (void)tableView:(UITableView *)tableView
-didDeselectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    [tableView beginUpdates];
-    [tableView endUpdates];
-    UILabel * label = (UILabel *)[tableView cellForRowAtIndexPath:indexPath].contentView.subviews[0];
-    label.text = [self textForCellFromTableView:tableView
-                                    atIndexPath:indexPath];
+    label.text = [self textForCellWithLogMessage:logMessage];
+    
+    // The method is called from the main queue
+    dispatch_async(_consoleQueue, ^
+                   {
+                       // Trigger row height update
+                       [self updateTableViewInConsoleQueue];
+                   });
+    
+    // Don't select the cell
+    return nil;
 }
 
 - (UILabel *)labelForNewCell
@@ -432,18 +448,14 @@ didDeselectRowAtIndexPath:(NSIndexPath *)indexPath
             case LOG_FLAG_DEBUG : label.textColor = [UIColor whiteColor];       break;
             default             : label.textColor = [UIColor lightGrayColor];   break;
         }
-        label.text = [self textForCellFromTableView:tableView
-                                        atIndexPath:indexPath];
+        label.text = [self textForCellWithLogMessage:logMessage];
     }
     
     return cell;
 }
 
-- (NSString *)textForCellFromTableView:(UITableView *)tableView
-                           atIndexPath:(NSIndexPath *)indexPath
+- (NSString *)textForCellWithLogMessage:(DDLogMessage *)logMessage
 {
-    DDLogMessage * logMessage = (_filteringEnabled ? _filteredMessages : _messages)[indexPath.row];
-    
     NSString * prefix;
     switch (logMessage->logFlag)
     {
@@ -454,13 +466,13 @@ didDeselectRowAtIndexPath:(NSIndexPath *)indexPath
         default             : prefix = @"Ⓥ"; break;
     }
     
-    // Selected cell?
-    if ([tableView.indexPathsForSelectedRows containsObject:indexPath])
+    // Expanded message?
+    if ([_expandedMessages containsObject:logMessage])
     {
         return [NSString stringWithFormat:@" %@ %@", prefix, [self formatLogMessage:logMessage]];
     }
     
-    // Unselected cell
+    // Collapsed message
     return [NSString stringWithFormat:@" %@ %@", prefix, [self formatShortLogMessage:logMessage]];
 }
 
