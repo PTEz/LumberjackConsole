@@ -40,8 +40,6 @@
     // Init
     _orderedContexts = [NBULog orderedRegisteredContexts];
     [self restoreLogLevels];
-    [self registerNib:[UINib nibWithNibName:@"PTEAdjustLevelsCell"
-                                     bundle:nil] forCellReuseIdentifier:@"PTEAdjustLevelsCell"];
     self.dataSource = self;
 }
 

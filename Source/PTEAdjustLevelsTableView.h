@@ -27,6 +27,12 @@
  */
 @interface PTEAdjustLevelsTableView : UITableView
 
+///@name Actions
+
+/// Called when a stepper value changes.
+/// @param sender The sender object.
+- (IBAction)stepperValueChanged:(UIStepper *)sender;
+
 @end
 
 
@@ -34,6 +40,8 @@
  An adjust levels' cell.
  */
 @interface PTEAdjustLevelsCell : UITableViewCell
+
+///@name Outlets
 
 /// The name of the log module.
 @property (weak, nonatomic) IBOutlet UILabel * nameLabel;
