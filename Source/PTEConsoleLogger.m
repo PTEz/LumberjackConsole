@@ -429,7 +429,7 @@ heightForRowAtIndexPath:(NSIndexPath *)indexPath
         
         if (marker)
         {
-            cell.backgroundColor = [UIColor colorWithWhite:0.5 alpha:0.5];
+            label.backgroundColor = [UIColor colorWithWhite:0.5 alpha:1.0];
             label.textAlignment = NSTextAlignmentCenter;
             cell.userInteractionEnabled = NO;
         }
