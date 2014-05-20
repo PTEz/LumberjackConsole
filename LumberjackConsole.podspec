@@ -3,8 +3,8 @@
 Pod::Spec.new do |s|
     
     s.name          = "LumberjackConsole"
-    s.version       = "2.0.1"
-    s.summary       = "On-device CocoaLumberjack console with support for search, filters and more."
+    s.version       = "2.0.2"
+    s.summary       = "On-device CocoaLumberjack console with support for search, adjust levels, copying and more."
     s.homepage      = "http://ptez.github.io/LumberjackConsole"
     
     s.license       = { :type => 'Apache License, Version 2.0', :file => 'LICENSE' }
