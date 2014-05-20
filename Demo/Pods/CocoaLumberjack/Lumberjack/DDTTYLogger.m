@@ -14,7 +14,7 @@
 **/
 
 #if ! __has_feature(objc_arc)
-#warning This file must be compiled with ARC. Use -fobjc-arc flag (or convert project to ARC).
+#error This file must be compiled with ARC. Use -fobjc-arc flag (or convert project to ARC).
 #endif
 
 // We probably shouldn't be using DDLog() statements within the DDLog implementation.
@@ -818,13 +818,12 @@ static DDTTYLogger *sharedInstance;
     {
         calendar = [NSCalendar autoupdatingCurrentCalendar];
         
-        calendarUnitFlags = 0;
-        calendarUnitFlags |= NSYearCalendarUnit;
-        calendarUnitFlags |= NSMonthCalendarUnit;
-        calendarUnitFlags |= NSDayCalendarUnit;
-        calendarUnitFlags |= NSHourCalendarUnit;
-        calendarUnitFlags |= NSMinuteCalendarUnit;
-        calendarUnitFlags |= NSSecondCalendarUnit;
+        calendarUnitFlags = (NSCalendarUnitYear     |
+                             NSCalendarUnitMonth    |
+                             NSCalendarUnitDay      |
+                             NSCalendarUnitHour     |
+                             NSCalendarUnitMinute   |
+                             NSCalendarUnitSecond);
         
         // Initialze 'app' variable (char *)
         
@@ -1273,25 +1272,28 @@ static DDTTYLogger *sharedInstance;
             // The log message is unformatted, so apply standard NSLog style formatting.
             
             int len;
+            char ts[24] = "";
+            size_t tsLen = 0;
             
             // Calculate timestamp.
             // The technique below is faster than using NSDateFormatter.
-            
-            NSDateComponents *components = [calendar components:calendarUnitFlags fromDate:logMessage->timestamp];
-            
-            NSTimeInterval epoch = [logMessage->timestamp timeIntervalSinceReferenceDate];
-            int milliseconds = (int)((epoch - floor(epoch)) * 1000);
-            
-            char ts[24];
-            len = snprintf(ts, 24, "%04ld-%02ld-%02ld %02ld:%02ld:%02ld:%03d", // yyyy-MM-dd HH:mm:ss:SSS
-                           (long)components.year,
-                           (long)components.month,
-                           (long)components.day,
-                           (long)components.hour,
-                           (long)components.minute,
-                           (long)components.second, milliseconds);
-            
-            size_t tsLen = MIN(24-1, len);
+            if (logMessage->timestamp)
+            {
+                NSDateComponents *components = [calendar components:calendarUnitFlags fromDate:logMessage->timestamp];
+                
+                NSTimeInterval epoch = [logMessage->timestamp timeIntervalSinceReferenceDate];
+                int milliseconds = (int)((epoch - floor(epoch)) * 1000);
+                
+                len = snprintf(ts, 24, "%04ld-%02ld-%02ld %02ld:%02ld:%02ld:%03d", // yyyy-MM-dd HH:mm:ss:SSS
+                               (long)components.year,
+                               (long)components.month,
+                               (long)components.day,
+                               (long)components.hour,
+                               (long)components.minute,
+                               (long)components.second, milliseconds);
+                
+                tsLen = (NSUInteger)MAX(MIN(24-1, len), 0);
+            }
             
             // Calculate thread ID
             // 
@@ -1304,7 +1306,7 @@ static DDTTYLogger *sharedInstance;
             char tid[9];
             len = snprintf(tid, 9, "%x", logMessage->machThreadID);
             
-            size_t tidLen = MIN(9-1, len);
+            size_t tidLen = (NSUInteger)MAX(MIN(9-1, len), 0);
             
             // Here is our format: "%s %s[%i:%s] %s", timestamp, appName, processID, threadID, logMsg
             
@@ -1434,7 +1436,7 @@ static DDTTYLogger *sharedInstance;
             const char *escapeSeq = XCODE_COLORS_ESCAPE_SEQ;
             
             int result = snprintf(fgCode, 24, "%sfg%u,%u,%u;", escapeSeq, fg_r, fg_g, fg_b);
-            fgCodeLen = MIN(result, (24-1));
+            fgCodeLen = (NSUInteger)MAX(MIN(result, (24-1)), 0);
         }
         else
         {
@@ -1469,7 +1471,7 @@ static DDTTYLogger *sharedInstance;
             const char *escapeSeq = XCODE_COLORS_ESCAPE_SEQ;
             
             int result = snprintf(bgCode, 24, "%sbg%u,%u,%u;", escapeSeq, bg_r, bg_g, bg_b);
-            bgCodeLen = MIN(result, (24-1));
+            bgCodeLen = (NSUInteger)MAX(MIN(result, (24-1)), 0);
         }
         else
         {
@@ -1481,11 +1483,11 @@ static DDTTYLogger *sharedInstance;
         
         if (isaColorTTY)
         {
-            resetCodeLen = snprintf(resetCode, 8, "\033[0m");
+            resetCodeLen = (NSUInteger)MAX(snprintf(resetCode, 8, "\033[0m"), 0);
         }
         else if (isaXcodeColorTTY)
         {
-            resetCodeLen = snprintf(resetCode, 8, XCODE_COLORS_RESET);
+            resetCodeLen = (NSUInteger)MAX(snprintf(resetCode, 8, XCODE_COLORS_RESET), 0);
         }
         else
         {
