@@ -2,11 +2,12 @@
 LumberjackConsole
 =================
 
-[![Platform: iOS](https://cocoapod-badges.herokuapp.com/p/LumberjackConsole/badge.svg)](http://cocoadocs.org/docsets/LumberjackConsole/)
-[![Version: 2.0.2](https://cocoapod-badges.herokuapp.com/v/LumberjackConsole/badge.png)](http://cocoadocs.org/docsets/LumberjackConsole/)
-[![Build Status](https://travis-ci.org/PTEz/LumberjackConsole.png?branch=master)](https://travis-ci.org/PTEz/LumberjackConsole)
+[![Platform: iOS](https://img.shields.io/cocoapods/p/LumberjackConsole.svg?style=flat)](http://cocoadocs.org/docsets/LumberjackConsole/)
+[![Version: 2.0.2](https://img.shields.io/cocoapods/v/LumberjackConsole.svg?style=flat)](http://cocoadocs.org/docsets/LumberjackConsole/)
+[![License: Apache 2.0](https://img.shields.io/cocoapods/l/LumberjackConsole.svg?style=flat)](http://cocoadocs.org/docsets/LumberjackConsole/)
+[![Build Status](http://img.shields.io/travis/PTEz/LumberjackConsole/master.svg?style=flat)](https://travis-ci.org/PTEz/LumberjackConsole)
 
-On-device [CocoaLumberjack](https://github.com/robbiehanson/CocoaLumberjack) console with support for search, adjust levels, copying and more.
+On-device [CocoaLumberjack](https://github.com/CocoaLumberjack/CocoaLumberjack) console with support for search, adjust levels, copying and more.
 
 ![Screenshot 1](http://ptez.github.io/LumberjackConsole/images/screenshot1.png)　![Screenshot 2](http://ptez.github.io/LumberjackConsole/images/screenshot2.png)
 
