@@ -1,8 +1,8 @@
 PODS:
-  - CocoaLumberjack (HEAD based on 1.8.1):
+  - CocoaLumberjack (HEAD based on 1.9.1):
     - CocoaLumberjack/Extensions
-  - CocoaLumberjack/Core (HEAD based on 1.8.1)
-  - CocoaLumberjack/Extensions (HEAD based on 1.8.1):
+  - CocoaLumberjack/Core (HEAD based on 1.9.1)
+  - CocoaLumberjack/Extensions (HEAD based on 1.9.1):
     - CocoaLumberjack/Core
   - LumberjackConsole (2.0.2):
     - CocoaLumberjack (>= 1.6.4)
@@ -18,8 +18,8 @@ EXTERNAL SOURCES:
     :path: ../
 
 SPEC CHECKSUMS:
-  CocoaLumberjack: 020378ec400d658923bf5887178394f65f052c90
+  CocoaLumberjack: 94accd5749f5c5d15134c8d50f34a973aed8ef69
   LumberjackConsole: 81c52c34abe2633e4ee5bb35fc1f7e177aa9f646
-  NBUCore: 85601dd90960d52151d19ae2a42765e0416c4dd8
+  NBUCore: 040cd60a1407bffd3dd6141b2b467125fe1631fa
 
-COCOAPODS: 0.32.1
+COCOAPODS: 0.33.1
