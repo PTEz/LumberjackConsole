@@ -35,7 +35,7 @@ There is a ConsoleDemo project included in the repository and can also be tried 
 
 ## Installation
 
-Simply add `pod 'LumberjackConsole'` to your [CocoaPods](http://cocoapods.org)' [Podfile](http://docs.cocoapods.org/podfile.html).
+Simply add `pod 'LumberjackConsole'` to your [CocoaPods](http://cocoapods.org)' [Podfile](http://guides.cocoapods.org/syntax/podfile.html).
 
 ```ruby
 platform :ios, '5.0'
@@ -46,6 +46,10 @@ pod 'LumberjackConsole'
 # Optional for dynamic log levels
 pod 'NBULog'
 ```
+
+## Documentation
+
+http://cocoadocs.org/docsets/LumberjackConsole/
 
 ## Usage
 
@@ -84,12 +88,10 @@ When coupled with [NBULog](https://github.com/CyberAgent/iOS-NBULog) you can dyn
 
 Your log level settings are saved to `NSUserDefaults`.
 
-## Documentation
-
-http://cocoadocs.org/docsets/LumberjackConsole/
-
 ## License
 
+    Copyright 2013-2014 Ernesto Rivera
+    
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License. 
     You may obtain a copy of the License at
