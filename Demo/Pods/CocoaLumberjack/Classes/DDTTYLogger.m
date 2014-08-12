@@ -1,10 +1,15 @@
+//
+//  DDTTYLogger.m
+//  CocoaLumberjack
+//
+
 #import "DDTTYLogger.h"
 
 #import <unistd.h>
 #import <sys/uio.h>
 
 /**
- * Welcome to Cocoa Lumberjack!
+ * Welcome to CocoaLumberjack!
  * 
  * The project page has a wealth of documentation if you have any questions.
  * https://github.com/CocoaLumberjack/CocoaLumberjack
@@ -854,6 +859,8 @@ static DDTTYLogger *sharedInstance;
         colorsEnabled = NO;
         colorProfilesArray = [[NSMutableArray alloc] initWithCapacity:8];
         colorProfilesDict = [[NSMutableDictionary alloc] initWithCapacity:8];
+        
+        _automaticallyAppendNewlineForCustomFormatters = YES;
     }
     return self;
 }
@@ -1231,8 +1238,8 @@ static DDTTYLogger *sharedInstance;
         if (isFormatted)
         {
             // The log message has already been formatted.
-            
-            struct iovec v[5];
+            int iovec_len = (_automaticallyAppendNewlineForCustomFormatters) ? 5 : 4;
+            struct iovec v[iovec_len];
             
             if (colorProfile)
             {
@@ -1242,8 +1249,8 @@ static DDTTYLogger *sharedInstance;
                 v[1].iov_base = colorProfile->bgCode;
                 v[1].iov_len = colorProfile->bgCodeLen;
 
-                v[4].iov_base = colorProfile->resetCode;
-                v[4].iov_len = colorProfile->resetCodeLen;
+                v[iovec_len - 1].iov_base = colorProfile->resetCode;
+                v[iovec_len - 1].iov_len = colorProfile->resetCodeLen;
             }
             else
             {
@@ -1253,17 +1260,19 @@ static DDTTYLogger *sharedInstance;
                 v[1].iov_base = "";
                 v[1].iov_len = 0;
                 
-                v[4].iov_base = "";
-                v[4].iov_len = 0;
+                v[iovec_len - 1].iov_base = "";
+                v[iovec_len - 1].iov_len = 0;
             }
             
             v[2].iov_base = (char *)msg;
             v[2].iov_len = msgLen;
             
-            v[3].iov_base = "\n";
-            v[3].iov_len = (msg[msgLen] == '\n') ? 0 : 1;
+            if (_automaticallyAppendNewlineForCustomFormatters) {
+                v[3].iov_base = "\n";
+                v[3].iov_len = (msg[msgLen] == '\n') ? 0 : 1;
+            }
             
-            writev(STDERR_FILENO, v, 5);
+            writev(STDERR_FILENO, v, iovec_len);
         }
         else
         {

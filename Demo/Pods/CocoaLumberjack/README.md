@@ -8,6 +8,7 @@ CocoaLumberjack
 [![Pod Version](http://img.shields.io/cocoapods/v/CocoaLumberjack.svg?style=flat)](http://cocoadocs.org/docsets/CocoaLumberjack/)
 [![Pod Platform](http://img.shields.io/cocoapods/p/CocoaLumberjack.svg?style=flat)](http://cocoadocs.org/docsets/CocoaLumberjack/)
 [![Pod License](http://img.shields.io/cocoapods/l/CocoaLumberjack.svg?style=flat)](http://opensource.org/licenses/BSD-3-Clause)
+[![Reference Status](https://www.versioneye.com/objective-c/cocoalumberjack/reference_badge.svg?style=flat)](https://www.versioneye.com/objective-c/cocoalumberjack/references)
 
 **CocoaLumberjack** is a fast & simple, yet powerful & flexible logging framework for Mac and iOS.
 
@@ -48,6 +49,14 @@ pod 'CocoaLumberjack'
 - read the [Getting started](https://github.com/CocoaLumberjack/CocoaLumberjack/wiki/GettingStarted) guide, check out the [FAQ](https://github.com/CocoaLumberjack/CocoaLumberjack/wiki/FAQ) section or the other [docs](https://github.com/CocoaLumberjack/CocoaLumberjack/wiki)
 - if you find issues or want to suggest improvements, create an issue or a pull request
 - for all kinds of questions involving CocoaLumberjack, use the [Google group](http://groups.google.com/group/cocoalumberjack) or StackOverflow (use [#lumberjack](http://stackoverflow.com/questions/tagged/lumberjack)).
+
+#### Migrating to 2.x
+
+Simply replace your `DDLog.h` imports by:
+
+```obj-c
+<CocoaLumberjack/CocoaLumberjack.h>
+```
 
 ### Documentation
 - **[Get started using Lumberjack](https://github.com/CocoaLumberjack/CocoaLumberjack/wiki/GettingStarted)**<br/>

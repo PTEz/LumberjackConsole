@@ -1,9 +1,12 @@
-#import <Foundation/Foundation.h>
+//
+//  DDAbstractDatabaseLogger.h
+//  CocoaLumberjack
+//
 
 #import "DDLog.h"
 
 /**
- * Welcome to Cocoa Lumberjack!
+ * Welcome to CocoaLumberjack!
  * 
  * The project page has a wealth of documentation if you have any questions.
  * https://github.com/CocoaLumberjack/CocoaLumberjack

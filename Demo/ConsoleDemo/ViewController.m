@@ -19,7 +19,7 @@
 //
 
 #import "ViewController.h"
-#import <CocoaLumberjack/DDLog.h>
+#import <CocoaLumberjack/CocoaLumberjack.h>
 
 static int ddLogLevel = LOG_LEVEL_VERBOSE;
 

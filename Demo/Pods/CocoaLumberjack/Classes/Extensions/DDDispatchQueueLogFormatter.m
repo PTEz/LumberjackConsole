@@ -1,3 +1,8 @@
+//
+//  DDDispatchQueueLogFormatter.m
+//  CocoaLumberjack
+//
+
 #import "DDDispatchQueueLogFormatter.h"
 #import <libkern/OSAtomic.h>
 
@@ -89,6 +94,13 @@
 {
     int32_t loggerCount = OSAtomicAdd32(0, &atomicLoggerCount);
     
+    NSString *calendarIdentifier = nil;
+#if defined(__IPHONE_8_0) || defined(__MAC_10_10)
+    calendarIdentifier = NSCalendarIdentifierGregorian;
+#else
+    calendarIdentifier = NSGregorianCalendar;
+#endif
+    
     if (loggerCount <= 1)
     {
         // Single-threaded mode.
@@ -100,7 +112,7 @@
             [threadUnsafeDateFormatter setDateFormat:dateFormatString];
         }
         
-        [threadUnsafeDateFormatter setCalendar:[[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar]];
+        [threadUnsafeDateFormatter setCalendar:[[NSCalendar alloc] initWithCalendarIdentifier:calendarIdentifier]];
         return [threadUnsafeDateFormatter stringFromDate:date];
     }
     else
@@ -122,7 +134,7 @@
             threadDictionary[key] = dateFormatter;
         }
         
-        [dateFormatter setCalendar:[[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar]];
+        [dateFormatter setCalendar:[[NSCalendar alloc] initWithCalendarIdentifier:calendarIdentifier]];
         return [dateFormatter stringFromDate:date];
     }
 }

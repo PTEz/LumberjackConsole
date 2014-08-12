@@ -1,3 +1,8 @@
+//
+//  DDLog.m
+//  CocoaLumberjack
+//
+
 #import "DDLog.h"
 
 #import <pthread.h>
@@ -11,7 +16,7 @@
 #endif
 
 /**
- * Welcome to Cocoa Lumberjack!
+ * Welcome to CocoaLumberjack!
  * 
  * The project page has a wealth of documentation if you have any questions.
  * https://github.com/CocoaLumberjack/CocoaLumberjack
@@ -1046,8 +1051,7 @@ static char *dd_str_copy(const char *str)
     if (function && (options & DDLogMessageCopyFunction))
         free(function);
     
-    if (queueLabel)
-        free(queueLabel);
+    free(queueLabel);
 }
 
 

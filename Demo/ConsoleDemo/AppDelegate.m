@@ -19,7 +19,7 @@
 //
 
 #import "AppDelegate.h"
-#import <CocoaLumberjack/DDLog.h>
+#import <CocoaLumberjack/CocoaLumberjack.h>
 #import <LumberjackConsole/PTEDashboard.h>
 
 static int ddLogLevel = LOG_LEVEL_VERBOSE;
