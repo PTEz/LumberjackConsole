@@ -57,12 +57,8 @@
 {
     [super willMoveToWindow:newWindow];
     
-    // iOS 8 fix (http://stackoverflow.com/a/25788774/1049134)
-    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"8.0"))
-    {
-        [_searchBar sizeToFit];
-    }
-
+    // Search bar fix (http://stackoverflow.com/a/25788774/1049134)
+    [_searchBar sizeToFit];
 }
 
 - (void)setLogger:(PTEConsoleLogger *)logger
