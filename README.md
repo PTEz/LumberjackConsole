@@ -32,7 +32,7 @@ On-device [CocoaLumberjack](https://github.com/CocoaLumberjack/CocoaLumberjack) 
 
 ## Demo
 
-There is a ConsoleDemo project included in the repository and can also be tried online [here](https://app.io/UQcR5R).
+A demo project is [included](Demo) in the repository.
 
 ## Installation
 
