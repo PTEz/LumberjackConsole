@@ -1,1 +1,0 @@
-../../../../Source/PTEConsoleLogger.h
