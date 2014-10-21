@@ -21,7 +21,7 @@
 #import "ViewController.h"
 #import <CocoaLumberjack/CocoaLumberjack.h>
 
-static int ddLogLevel = LOG_LEVEL_VERBOSE;
+static int ddLogLevel = DDLogLevelVerbose;
 
 @implementation ViewController
 
