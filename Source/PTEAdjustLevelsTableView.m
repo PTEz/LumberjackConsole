@@ -150,7 +150,7 @@
 
 - (void)configureLevelLabel:(UILabel *)label
                  andStepper:(UIStepper *)stepper
-                   forLevel:(int)level
+                   forLevel:(DDLogLevel)level
 {
     switch (level)
     {
