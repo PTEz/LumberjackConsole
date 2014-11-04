@@ -34,7 +34,7 @@
 #define COCOAPODS_POD_AVAILABLE_LumberjackConsole
 #define COCOAPODS_VERSION_MAJOR_LumberjackConsole 2
 #define COCOAPODS_VERSION_MINOR_LumberjackConsole 4
-#define COCOAPODS_VERSION_PATCH_LumberjackConsole 0
+#define COCOAPODS_VERSION_PATCH_LumberjackConsole 1
 
 // NBUCore
 #define COCOAPODS_POD_AVAILABLE_NBUCore
