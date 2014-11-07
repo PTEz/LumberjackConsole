@@ -19,7 +19,7 @@ Pod::Spec.new do |s|
     s.preserve_paths = "README.md", "NOTICE"
     
     s.dependency 'NBUCore', '>= 2.0.3'
-    s.dependency 'CocoaLumberjack', '>= 2.0.0-beta3'
+    s.dependency 'CocoaLumberjack', '>= 2.0.0-beta4'
     
     s.source_files = 'Source/*.{h,m}'
     s.resources    = 'Source/*.{storyboard}'
