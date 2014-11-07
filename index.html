@@ -18,8 +18,6 @@
         <h1>LumberjackConsole</h1>
         <p>On-device CocoaLumberjack console with support for search, adjust levels, copying and more.</p>
 
-		<iframe src="https://app.io/UQcR5R?orientation=portrait&device=iphone5" height="607px" width="291px" frameborder="0" allowtransparency="true" scrolling="no"></iframe>
-
         <p class="view"><a href="https://github.com/PTEz/LumberjackConsole">View the Project on GitHub <small>PTEz/LumberjackConsole</small></a></p>
 
 
@@ -31,14 +29,15 @@
       </header>
       <section>
         <p><a href="http://cocoadocs.org/docsets/LumberjackConsole/"><img src="https://img.shields.io/cocoapods/p/LumberjackConsole.svg?style=flat" alt="Platform: iOS"></a>
-<a href="http://cocoadocs.org/docsets/LumberjackConsole/"><img src="https://img.shields.io/cocoapods/v/LumberjackConsole.svg?style=flat" alt="Version: 2.0.2"></a>
+<a href="http://cocoadocs.org/docsets/LumberjackConsole/"><img src="https://img.shields.io/cocoapods/v/LumberjackConsole.svg?style=flat" alt="Version: 2.4.2"></a>
 <a href="http://cocoadocs.org/docsets/LumberjackConsole/"><img src="https://img.shields.io/cocoapods/l/LumberjackConsole.svg?style=flat" alt="License: Apache 2.0"></a>
+<a href="https://www.versioneye.com/objective-c/LumberjackConsole"><img src="https://www.versioneye.com/objective-c/LumberjackConsole/badge.svg?style=flat" alt="Dependency Status"></a>
 <a href="https://travis-ci.org/PTEz/LumberjackConsole"><img src="http://img.shields.io/travis/PTEz/LumberjackConsole/master.svg?style=flat" alt="Build Status"></a></p>
 
 <p><img src="http://ptez.github.io/LumberjackConsole/images/screenshot1.png" alt="Screenshot 1">　<img src="http://ptez.github.io/LumberjackConsole/images/screenshot2.png" alt="Screenshot 2"></p>
 
 <h2>
-<a name="features" class="anchor" href="#features"><span class="octicon octicon-link"></span></a>Features</h2>
+<a id="features" class="anchor" href="#features" aria-hidden="true"><span class="octicon octicon-link"></span></a>Features</h2>
 
 <ul>
 <li>Sypport dynamic log levels.</li>
@@ -50,82 +49,85 @@
 <li>Long tap to copy log messages.</li>
 <li>Insert markers.</li>
 <li>Clear console.</li>
-</ul><h3>
-<a name="todo" class="anchor" href="#todo"><span class="octicon octicon-link"></span></a>ToDo</h3>
+</ul>
+
+<h3>
+<a id="todo" class="anchor" href="#todo" aria-hidden="true"><span class="octicon octicon-link"></span></a>ToDo</h3>
 
 <ul>
 <li>Improve rotation support.</li>
 <li>Read crash reports.</li>
 <li>Keep scrolled area when not at the top.</li>
-</ul><h2>
-<a name="demo" class="anchor" href="#demo"><span class="octicon octicon-link"></span></a>Demo</h2>
-
-<p>There is a ConsoleDemo project included in the repository and can also be tried online <a href="https://app.io/UQcR5R">here</a>.</p>
+</ul>
 
 <h2>
-<a name="installation" class="anchor" href="#installation"><span class="octicon octicon-link"></span></a>Installation</h2>
+<a id="demo" class="anchor" href="#demo" aria-hidden="true"><span class="octicon octicon-link"></span></a>Demo</h2>
 
-<p>Simply add <code>pod 'LumberjackConsole'</code> to your <a href="http://cocoapods.org">CocoaPods</a>' <a href="http://docs.cocoapods.org/podfile.html">Podfile</a>.</p>
+<p>A demo project is <a href="Demo">included</a> in the repository.</p>
 
-<div class="highlight highlight-ruby"><pre><span class="n">platform</span> <span class="ss">:ios</span><span class="p">,</span> <span class="s1">'5.0'</span>
+<h2>
+<a id="installation" class="anchor" href="#installation" aria-hidden="true"><span class="octicon octicon-link"></span></a>Installation</h2>
 
-<span class="n">pod</span> <span class="s1">'CocoaLumberjack'</span>
-<span class="n">pod</span> <span class="s1">'LumberjackConsole'</span>
+<p>Simply add <code>pod 'LumberjackConsole'</code> to your <a href="http://cocoapods.org">CocoaPods</a>' <a href="http://guides.cocoapods.org/syntax/podfile.html">Podfile</a>.</p>
+
+<div class="highlight highlight-ruby"><pre>platform <span class="ss">:ios</span>, <span class="s1">'5.0'</span>
+
+pod <span class="s1">'CocoaLumberjack'</span>
+pod <span class="s1">'LumberjackConsole'</span>
 
 <span class="c1"># Optional for dynamic log levels</span>
-<span class="n">pod</span> <span class="s1">'NBULog'</span>
-</pre></div>
+pod <span class="s1">'NBULog'</span></pre></div>
 
 <h2>
-<a name="usage" class="anchor" href="#usage"><span class="octicon octicon-link"></span></a>Usage</h2>
+<a id="documentation" class="anchor" href="#documentation" aria-hidden="true"><span class="octicon octicon-link"></span></a>Documentation</h2>
+
+<p><a href="http://cocoadocs.org/docsets/LumberjackConsole/">http://cocoadocs.org/docsets/LumberjackConsole/</a></p>
+
+<h2>
+<a id="usage" class="anchor" href="#usage" aria-hidden="true"><span class="octicon octicon-link"></span></a>Usage</h2>
 
 <h3>
-<a name="a-dashboard-logger" class="anchor" href="#a-dashboard-logger"><span class="octicon octicon-link"></span></a>a) Dashboard Logger</h3>
+<a id="a-dashboard-logger" class="anchor" href="#a-dashboard-logger" aria-hidden="true"><span class="octicon octicon-link"></span></a>a) Dashboard Logger</h3>
 
 <p>Import the dashboard header:</p>
 
-<div class="highlight highlight-obj-c"><pre><span class="cp">#import &lt;LumberjackConsole/PTEDashboard.h&gt;</span>
-</pre></div>
+<div class="highlight highlight-obj-c"><pre>#<span class="k">import</span> <span class="s">&lt;LumberjackConsole/PTEDashboard.h&gt;</span></pre></div>
 
 <p>Add its logger for testing builds:</p>
 
-<div class="highlight highlight-obj-c"><pre><span class="p">-</span> <span class="p">(</span><span class="kt">BOOL</span><span class="p">)</span><span class="nf">application:</span><span class="p">(</span><span class="bp">UIApplication</span> <span class="o">*</span><span class="p">)</span><span class="nv">application</span> <span class="nf">didFinishLaunchingWithOptions:</span><span class="p">(</span><span class="bp">NSDictionary</span> <span class="o">*</span><span class="p">)</span><span class="nv">launchOptions</span>
-<span class="p">{</span>
-<span class="cp">#ifndef PRODUCTION</span>
+<div class="highlight highlight-obj-c"><pre>- (<span class="kt">BOOL</span>)application:(UIApplication *)application didFinishLaunchingWithOptions:(<span class="no">NSDictionary</span> *)launchOptions
+{
+#<span class="k">ifndef</span> PRODUCTION
         <span class="c1">// Add the console dashboard for testing builds</span>
-        <span class="p">[</span><span class="n">PTEDashboard</span><span class="p">.</span><span class="n">sharedDashboard</span> <span class="n">show</span><span class="p">];</span>                <span class="c1">// &lt;- If not using NBULog</span>
+        [PTEDashboard.sharedDashboard <span class="nf">show</span>];                <span class="c1">// &lt;- If not using NBULog</span>
         <span class="c1">// [NBULog addDashboardLogger];                     // &lt;- If using NBULog</span>
 
-        <span class="n">DDLogInfo</span><span class="p">(</span><span class="s">@"Added console dashboard"</span><span class="p">);</span>
-<span class="cp">#endif</span>
+        <span class="nf">DDLogInfo</span>(<span class="s2">@"Added console dashboard"</span>);
+#<span class="k">endif</span>
 
         <span class="c1">// ...</span>
-<span class="p">}</span>
-</pre></div>
+}</pre></div>
 
 <h3>
-<a name="b-embeded-console" class="anchor" href="#b-embeded-console"><span class="octicon octicon-link"></span></a>b) Embeded Console</h3>
+<a id="b-embeded-console" class="anchor" href="#b-embeded-console" aria-hidden="true"><span class="octicon octicon-link"></span></a>b) Embeded Console</h3>
 
 <p>Simply add a <code>PTEConsoleTableView</code> instance to your view hierarchy.</p>
 
 <h2>
-<a name="more" class="anchor" href="#more"><span class="octicon octicon-link"></span></a>More</h2>
+<a id="more" class="anchor" href="#more" aria-hidden="true"><span class="octicon octicon-link"></span></a>More</h2>
 
-<p>When coupled with <a href="https://github.com/CyberAgent/iOS-NBULog">NBULog</a> you can dynamically adjust log levels from within the dashboard!</p>
+<p>When coupled with <a href="https://github.com/CyberAgent/NBULog">NBULog</a> you can dynamically adjust log levels from within the dashboard!</p>
 
 <p><img src="http://ptez.github.io/LumberjackConsole/images/screenshot3.png" alt="Screenshot 3"></p>
 
 <p>Your log level settings are saved to <code>NSUserDefaults</code>.</p>
 
 <h2>
-<a name="documentation" class="anchor" href="#documentation"><span class="octicon octicon-link"></span></a>Documentation</h2>
+<a id="license" class="anchor" href="#license" aria-hidden="true"><span class="octicon octicon-link"></span></a>License</h2>
 
-<p><a href="http://cocoadocs.org/docsets/LumberjackConsole/">http://cocoadocs.org/docsets/LumberjackConsole/</a></p>
+<pre><code>Copyright 2013-2014 Ernesto Rivera
 
-<h2>
-<a name="license" class="anchor" href="#license"><span class="octicon octicon-link"></span></a>License</h2>
-
-<pre><code>Licensed under the Apache License, Version 2.0 (the "License");
+Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License. 
 You may obtain a copy of the License at
 
