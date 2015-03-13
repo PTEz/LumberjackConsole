@@ -1,6 +1,6 @@
 // Software License Agreement (BSD License)
 //
-// Copyright (c) 2010-2014, Deusty, LLC
+// Copyright (c) 2010-2015, Deusty, LLC
 // All rights reserved.
 //
 // Redistribution and use of this software in source and binary forms,
@@ -15,8 +15,18 @@
 
 #import <Foundation/Foundation.h>
 
-#if !defined(DDLEGACY) || DDLEGACY
-    #import "DDLegacy.h"
+// Enable 1.9.x legacy macros if imported directly
+#ifndef DD_LEGACY_MACROS
+    #define DD_LEGACY_MACROS 1
+#endif
+#if DD_LEGACY_MACROS
+    #import "DDLegacyMacros.h"
+#endif
+
+#if OS_OBJECT_USE_OBJC
+    #define DISPATCH_QUEUE_REFERENCE_TYPE strong
+#else
+    #define DISPATCH_QUEUE_REFERENCE_TYPE assign
 #endif
 
 @class DDLogMessage;
@@ -151,12 +161,12 @@ NSString * DDExtractFileNameWithoutExtension(const char *filePath, BOOL copy);
 + (void)log:(BOOL)synchronous
       level:(DDLogLevel)level
        flag:(DDLogFlag)flag
-    context:(int)context
+    context:(NSInteger)context
        file:(const char *)file
    function:(const char *)function
-       line:(int)line
+       line:(NSUInteger)line
         tag:(id)tag
-     format:(NSString *)format, ...__attribute__((format(__NSString__, 9, 10)));
+     format:(NSString *)format, ... NS_FORMAT_FUNCTION(9,10);
 
 /**
  * Logging Primitive.
@@ -167,10 +177,10 @@ NSString * DDExtractFileNameWithoutExtension(const char *filePath, BOOL copy);
 + (void)log:(BOOL)asynchronous
       level:(DDLogLevel)level
        flag:(DDLogFlag)flag
-    context:(int)context
+    context:(NSInteger)context
        file:(const char *)file
    function:(const char *)function
-       line:(int)line
+       line:(NSUInteger)line
         tag:(id)tag
      format:(NSString *)format
        args:(va_list)argList;
@@ -182,10 +192,10 @@ NSString * DDExtractFileNameWithoutExtension(const char *filePath, BOOL copy);
     message:(NSString *)message
       level:(DDLogLevel)level
        flag:(DDLogFlag)flag
-    context:(int)context
+    context:(NSInteger)context
        file:(const char *)file
    function:(const char *)function
-       line:(int)line
+       line:(NSUInteger)line
         tag:(id)tag;
 
 /**
@@ -331,7 +341,7 @@ NSString * DDExtractFileNameWithoutExtension(const char *filePath, BOOL copy);
  * Thus, a dedicated dispatch queue is used for each logger.
  * Logger implementations may optionally choose to provide their own dispatch queue.
  **/
-@property (nonatomic, readonly) dispatch_queue_t loggerQueue;
+@property (nonatomic, DISPATCH_QUEUE_REFERENCE_TYPE, readonly) dispatch_queue_t loggerQueue;
 
 /**
  * If the logger implementation does not choose to provide its own queue,
@@ -437,7 +447,7 @@ typedef NS_OPTIONS(NSInteger, DDLogMessageOptions) {
     NSString *_message;
     DDLogLevel _level;
     DDLogFlag _flag;
-    NSUInteger _context;
+    NSInteger _context;
     NSString *_file;
     NSString *_fileName;
     NSString *_function;
@@ -468,7 +478,7 @@ typedef NS_OPTIONS(NSInteger, DDLogMessageOptions) {
 - (instancetype)initWithMessage:(NSString *)message
                           level:(DDLogLevel)level
                            flag:(DDLogFlag)flag
-                        context:(NSUInteger)context
+                        context:(NSInteger)context
                            file:(NSString *)file
                        function:(NSString *)function
                            line:(NSUInteger)line
@@ -482,7 +492,7 @@ typedef NS_OPTIONS(NSInteger, DDLogMessageOptions) {
 @property (readonly, nonatomic) NSString *message;
 @property (readonly, nonatomic) DDLogLevel level;
 @property (readonly, nonatomic) DDLogFlag flag;
-@property (readonly, nonatomic) NSUInteger context;
+@property (readonly, nonatomic) NSInteger context;
 @property (readonly, nonatomic) NSString *file;
 @property (readonly, nonatomic) NSString *fileName;
 @property (readonly, nonatomic) NSString *function;
@@ -525,8 +535,8 @@ typedef NS_OPTIONS(NSInteger, DDLogMessageOptions) {
     dispatch_queue_t _loggerQueue;
 }
 
-@property (nonatomic, strong)    id <DDLogFormatter> logFormatter;
-@property (nonatomic, readwrite) dispatch_queue_t loggerQueue;
+@property (nonatomic, strong) id <DDLogFormatter> logFormatter;
+@property (nonatomic, DISPATCH_QUEUE_REFERENCE_TYPE) dispatch_queue_t loggerQueue;
 
 // For thread-safety assertions
 @property (nonatomic, readonly, getter=isOnGlobalLoggingQueue)  BOOL onGlobalLoggingQueue;

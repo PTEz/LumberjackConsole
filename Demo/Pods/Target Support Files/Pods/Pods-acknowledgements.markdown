@@ -5,7 +5,7 @@ This application makes use of the following third party libraries:
 
 Software License Agreement (BSD License)
 
-Copyright (c) 2010-2014, Deusty, LLC
+Copyright (c) 2010-2015, Deusty, LLC
 All rights reserved.
 
 Redistribution and use of this software in source and binary forms,
@@ -212,7 +212,7 @@ Apache License
       same "printed page" as the copyright notice for easier
       identification within third-party archives.
 
-   Copyright 2013-2014 Ernesto Rivera
+   Copyright 2013-2015 Ernesto Rivera
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.

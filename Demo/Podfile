@@ -4,7 +4,7 @@ source 'https://github.com/CocoaPods/Specs.git'
 
 # For regular projects
 pod 'CocoaLumberjack'
-#pod 'LumberjackConsole'
+#pod 'LumberjackConsole', :configurations => ['Debug']
 
 # Optional for dynamic logging
 #pod 'NBULog'

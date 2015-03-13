@@ -1,6 +1,6 @@
 // Software License Agreement (BSD License)
 //
-// Copyright (c) 2010-2014, Deusty, LLC
+// Copyright (c) 2010-2015, Deusty, LLC
 // All rights reserved.
 //
 // Redistribution and use of this software in source and binary forms,
@@ -12,10 +12,6 @@
 // * Neither the name of Deusty nor the names of its contributors may be used
 //   to endorse or promote products derived from this software without specific
 //   prior written permission of Deusty, LLC.
-
-#import "DDLog.h"
-
-#define LOG_CONTEXT_ALL INT_MAX
 
 /**
  * This class provides a logger for Terminal output or Xcode console output,
@@ -31,6 +27,11 @@
  * However, if you instead choose to use file logging (for faster performance),
  * you may choose to use only a file logger and a tty logger.
  **/
+
+// Disable legacy macros
+#ifndef DD_LEGACY_MACROS
+    #define DD_LEGACY_MACROS 0
+#endif
 
 #import "DDLog.h"
 
@@ -95,7 +96,7 @@
  * custom formatters. Default value is YES.
  **/
 
-@property (readwrite, assign) BOOL automaticallyAppendNewlineForCustomFormatters;
+@property (nonatomic, readwrite, assign) BOOL automaticallyAppendNewlineForCustomFormatters;
 
 /**
  * The default color set (foregroundColor, backgroundColor) is:
@@ -132,7 +133,7 @@
  * Logging context's are explained in further detail here:
  * Documentation/CustomContext.md
  **/
-- (void)setForegroundColor:(DDColor *)txtColor backgroundColor:(DDColor *)bgColor forFlag:(DDLogFlag)mask context:(int)ctxt;
+- (void)setForegroundColor:(DDColor *)txtColor backgroundColor:(DDColor *)bgColor forFlag:(DDLogFlag)mask context:(NSInteger)ctxt;
 
 /**
  * Similar to the methods above, but allows you to map DDLogMessage->tag to a particular color profile.
@@ -163,7 +164,7 @@
  * Clearing color profiles.
  **/
 - (void)clearColorsForFlag:(DDLogFlag)mask;
-- (void)clearColorsForFlag:(DDLogFlag)mask context:(int)context;
+- (void)clearColorsForFlag:(DDLogFlag)mask context:(NSInteger)context;
 - (void)clearColorsForTag:(id <NSCopying>)tag;
 - (void)clearColorsForAllFlags;
 - (void)clearColorsForAllTags;

@@ -1,6 +1,6 @@
 // Software License Agreement (BSD License)
 //
-// Copyright (c) 2010-2014, Deusty, LLC
+// Copyright (c) 2010-2015, Deusty, LLC
 // All rights reserved.
 //
 // Redistribution and use of this software in source and binary forms,
@@ -98,6 +98,18 @@ unsigned long long const kDDDefaultLogFilesDiskQuota   = 20 * 1024 * 1024; // 20
     }
 
     return self;
+}
+
++ (BOOL)automaticallyNotifiesObserversForKey:(NSString *)theKey
+{
+    BOOL automatic = NO;
+    if ([theKey isEqualToString:@"maximumNumberOfLogFiles"] || [theKey isEqualToString:@"logFilesDiskQuota"]) {
+        automatic = NO;
+    } else {
+        automatic = [super automaticallyNotifiesObserversForKey:theKey];
+    }
+    
+    return automatic;
 }
 
 #if TARGET_OS_IPHONE
@@ -317,6 +329,7 @@ unsigned long long const kDDDefaultLogFilesDiskQuota   = 20 * 1024 * 1024; // 20
 
     if (dateFormatter == nil) {
         dateFormatter = [[NSDateFormatter alloc] init];
+        [dateFormatter setLocale:[NSLocale localeWithLocaleIdentifier:@"en_US_POSIX"]];
         [dateFormatter setDateFormat:dateFormat];
         [dateFormatter setTimeZone:[NSTimeZone timeZoneForSecondsFromGMT:0]];
         dictionary[key] = dateFormatter;
@@ -940,7 +953,7 @@ unsigned long long const kDDDefaultLogFilesDiskQuota   = 20 * 1024 * 1024; // 20
             if (!_doNotReuseLogFiles && doesAppRunInBackground()) {
                 NSString *key = mostRecentLogFileInfo.fileAttributes[NSFileProtectionKey];
 
-                if (!([key isEqualToString:NSFileProtectionCompleteUntilFirstUserAuthentication] || [key isEqualToString:NSFileProtectionNone])) {
+                if ([key length] > 0 && !([key isEqualToString:NSFileProtectionCompleteUntilFirstUserAuthentication] || [key isEqualToString:NSFileProtectionNone])) {
                     shouldArchiveMostRecent = YES;
                 }
             }

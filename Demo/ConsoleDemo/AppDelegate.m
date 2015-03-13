@@ -22,8 +22,6 @@
 #import <CocoaLumberjack/CocoaLumberjack.h>
 #import <LumberjackConsole/PTEDashboard.h>
 
-static int ddLogLevel = DDLogLevelVerbose;
-
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
