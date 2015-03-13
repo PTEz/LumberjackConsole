@@ -42,7 +42,7 @@ Simply add `pod 'LumberjackConsole'` to your [CocoaPods](http://cocoapods.org)' 
 platform :ios, '5.0'
 
 pod 'CocoaLumberjack'
-pod 'LumberjackConsole'
+pod 'LumberjackConsole', :configurations => ['Debug']
 
 # Optional for dynamic log levels
 pod 'NBULog'
@@ -91,7 +91,7 @@ Your log level settings are saved to `NSUserDefaults`.
 
 ## License
 
-    Copyright 2013-2014 Ernesto Rivera
+    Copyright 2013-2015 Ernesto Rivera
     
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License. 

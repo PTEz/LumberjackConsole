@@ -1,5 +1,4 @@
 
-
 Pod::Spec.new do |s|
     
     s.name          = "LumberjackConsole"
