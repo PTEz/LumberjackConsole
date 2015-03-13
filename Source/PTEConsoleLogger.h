@@ -18,7 +18,7 @@
 //  limitations under the License.
 //
 
-#import <CocoaLumberjack/DDLog.h>
+#import <CocoaLumberjack/CocoaLumberjack.h>
 
 @class PTEConsoleTableView;
 
