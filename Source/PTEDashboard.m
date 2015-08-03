@@ -59,9 +59,9 @@ static PTEDashboard * _sharedDashboard;
         }
         
         // Load Storyboard
-        self.rootViewController = [[UIStoryboard storyboardWithName:@"LumberjackConsole"
-                                                             bundle:nil] instantiateInitialViewController];
-        
+			  UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"LumberjackConsole" bundle:[NSBundle bundleForClass:[self class]]];
+			  self.rootViewController = [storyboard instantiateInitialViewController];
+			
         // Save references
         NSArray * subviews = self.rootViewController.view.subviews;
         _consoleTableView = subviews[0];
