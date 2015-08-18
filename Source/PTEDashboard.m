@@ -59,9 +59,9 @@ static PTEDashboard * _sharedDashboard;
         }
         
         // Load Storyboard
-        self.rootViewController = [[UIStoryboard storyboardWithName:@"LumberjackConsole"
-                                                             bundle:nil] instantiateInitialViewController];
-        
+        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"LumberjackConsole" bundle:[NSBundle bundleForClass:[self class]]];
+        self.rootViewController = [storyboard instantiateInitialViewController];
+			
         // Save references
         NSArray * subviews = self.rootViewController.view.subviews;
         _consoleTableView = subviews[0];
@@ -107,13 +107,12 @@ static PTEDashboard * _sharedDashboard;
     
     // Flip the window's height and width?
     CGRect frame = self.frame;
-    if ((UIDeviceOrientationIsLandscape(currentOrientation) && UIDeviceOrientationIsPortrait(nextOrientation)) ||
-        (UIDeviceOrientationIsPortrait(currentOrientation) && UIDeviceOrientationIsLandscape(nextOrientation)))
+    if ((UIInterfaceOrientationIsLandscape(currentOrientation) && UIInterfaceOrientationIsPortrait(nextOrientation)) ||
+        (UIInterfaceOrientationIsPortrait(currentOrientation) && UIInterfaceOrientationIsLandscape(nextOrientation)))
     {
-        frame.size = CGSizeMake(frame.size.height,
-                                frame.size.width);
+        frame.size = CGSizeMake(frame.size.height,frame.size.width);
     }
-    
+	
     // Calculate the transform and origin
     CGAffineTransform transform;
     switch (nextOrientation)
