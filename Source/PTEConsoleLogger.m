@@ -99,14 +99,20 @@
 - (void)logMessage:(DDLogMessage *)logMessage
 {
     // The method is called from the logger queue
+    __weak typeof(self) weakSelf = self;
     dispatch_async(_consoleQueue, ^
     {
+        if (weakSelf == nil) {
+            return;
+        }
+
+        __strong typeof(weakSelf) strongSelf = weakSelf;
         // Add new message to buffer
-        [_newMessagesBuffer insertObject:logMessage
+        [strongSelf->_newMessagesBuffer insertObject:logMessage
                                  atIndex:0];
 
         // Trigger update
-        [self updateOrScheduleTableViewUpdateInConsoleQueue];
+        [strongSelf updateOrScheduleTableViewUpdateInConsoleQueue];
     });
 }
 
@@ -146,15 +152,22 @@
 - (void)clearConsole
 {
     // The method is called from the main queue
+    __weak typeof(self) weakSelf = self;
     dispatch_async(_consoleQueue, ^
                    {
+                       if (weakSelf == nil) {
+                           return;
+                       }
+
+                       __strong typeof(weakSelf) strongSelf = weakSelf;
+
                        // Clear all messages
-                       [_newMessagesBuffer removeAllObjects];
-                       [_messages removeAllObjects];
-                       [_filteredMessages removeAllObjects];
-                       [_expandedMessages removeAllObjects];
+                       [strongSelf->_newMessagesBuffer removeAllObjects];
+                       [strongSelf->_messages removeAllObjects];
+                       [strongSelf->_filteredMessages removeAllObjects];
+                       [strongSelf->_expandedMessages removeAllObjects];
                        
-                       [self updateTableViewInConsoleQueue];
+                       [strongSelf updateTableViewInConsoleQueue];
                    });
 }
 
@@ -178,11 +191,17 @@
     if (timeToWaitForNextUpdate > 0)
     {
         _updateScheduled = YES;
+        __weak typeof(self) weakSelf = self;
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(timeToWaitForNextUpdate * NSEC_PER_SEC)), _consoleQueue, ^
                        {
-                           [self updateTableViewInConsoleQueue];
+                           if (weakSelf == nil) {
+                               return;
+                           }
+
+                           __strong typeof(weakSelf) strongSelf = weakSelf;
+                           [strongSelf updateTableViewInConsoleQueue];
                            
-                           _updateScheduled = NO;
+                           strongSelf->_updateScheduled = NO;
                        });
     }
     // Update directly
@@ -248,19 +267,25 @@
     // Empty buffer
     [_newMessagesBuffer removeAllObjects];
     
-    // Update table view (dispatch sync to ensure the messages' arrayt doesn't get modified)
+    // Update table view (dispatch sync to ensure the messages' array doesn't get modified)
+    __weak typeof(self) weakSelf = self;
     dispatch_sync(dispatch_get_main_queue(), ^
                   {
+                      if (weakSelf == nil) {
+                          return;
+                      }
+
+                      __strong typeof(weakSelf) strongSelf = weakSelf;
                       // Completely update table view?
                       if (itemsToKeepCount == 0 || forceReload)
                       {
-                          [self.tableView reloadData];
+                          [strongSelf.tableView reloadData];
                           
                       }
                       // Partial only
                       else
                       {
-                          [self updateTableViewRowsRemoving:itemsToRemoveCount
+                          [strongSelf updateTableViewRowsRemoving:itemsToRemoveCount
                                                   inserting:itemsToInsertCount];
                       }
                   });
@@ -342,9 +367,15 @@ heightForRowAtIndexPath:(NSIndexPath *)indexPath
         // Save a sample label reference
         static UILabel * labelModel;
         static dispatch_once_t onceToken;
+        __weak typeof(self) weakSelf = self;
         dispatch_once(&onceToken, ^
                       {
-                          labelModel = [self labelForNewCell];
+                          if (weakSelf == nil) {
+                              return;
+                          }
+
+                          __strong typeof(weakSelf) strongSelf = weakSelf;
+                          labelModel = [strongSelf labelForNewCell];
                       });
         
         labelModel.text = string;
@@ -387,10 +418,16 @@ heightForRowAtIndexPath:(NSIndexPath *)indexPath
     label.text = [self textForCellWithLogMessage:logMessage];
     
     // The method is called from the main queue
+    __weak typeof(self) weakSelf = self;
     dispatch_async(_consoleQueue, ^
                    {
+                       if (weakSelf == nil) {
+                           return;
+                       }
+
+                       __strong typeof(weakSelf) strongSelf = weakSelf;
                        // Trigger row height update
-                       [self updateTableViewInConsoleQueue];
+                       [strongSelf updateTableViewInConsoleQueue];
                    });
     
     // Don't select the cell
@@ -412,7 +449,19 @@ heightForRowAtIndexPath:(NSIndexPath *)indexPath
          cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     // A marker?
-    DDLogMessage * logMessage = (_filteringEnabled ? _filteredMessages : _messages)[indexPath.row];
+    NSArray * arr = (_filteringEnabled ? _filteredMessages : _messages);
+
+    if ([arr count] <= [indexPath row]) {
+        NSAssert(NO, @"Trying to access row out of bounds! \
+                 Array elements count: %i, \
+                 requested row: %i \
+                 Filtering enabled: %@",
+                 [arr count],
+                 [indexPath row],
+                 _filteringEnabled ? @"YES" : @"NO");
+    }
+
+    DDLogMessage * logMessage = arr[indexPath.row];
     BOOL marker = [logMessage isKindOfClass:[PTEMarkerLogMessage class]];
     
     // Load cell
@@ -445,11 +494,11 @@ heightForRowAtIndexPath:(NSIndexPath *)indexPath
     // Configure the label
     if (marker)
     {
-        label.text = logMessage->_message;
+        label.text = logMessage.message;
     }
     else
     {
-        switch (logMessage->_flag)
+        switch (logMessage.flag)
         {
             case DDLogFlagError   : label.textColor = [UIColor redColor];       break;
             case DDLogFlagWarning : label.textColor = [UIColor orangeColor];    break;
@@ -535,7 +584,7 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
 {
     // Message is a marker OR (Log flag matches AND (no search text OR contains search text))
     return ([message isKindOfClass:[PTEMarkerLogMessage class]] ||
-            ((message->_flag & _currentLogLevel) &&
+            ((message.flag & _currentLogLevel) &&
              (_currentSearchText.length == 0 ||
               [[self formatLogMessage:message] rangeOfString:_currentSearchText
                                                      options:(NSCaseInsensitiveSearch |
@@ -548,20 +597,26 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
 - (void)searchBarStateChanged
 {
     // The method is called from the main queue
+    __weak typeof(self) weakSelf = self;
     dispatch_async(_consoleQueue, ^
     {
+        if (weakSelf == nil) {
+            return;
+        }
+
+        __strong typeof(weakSelf) strongSelf = weakSelf;
         // Filtering enabled?
-        _filteringEnabled = (_currentSearchText.length > 0 ||        // Some text input
-                             _currentLogLevel != DDLogLevelVerbose); // Or log level != verbose
+        strongSelf->_filteringEnabled = (strongSelf->_currentSearchText.length > 0 ||        // Some text input
+                             strongSelf->_currentLogLevel != DDLogLevelVerbose); // Or log level != verbose
         
         // Force reloading filtered messages
-        if (_filteringEnabled)
+        if (strongSelf->_filteringEnabled)
         {
-            _filteredMessages = nil;
+            strongSelf->_filteredMessages = nil;
         }
         
         // Update
-        [self updateTableViewInConsoleQueue];
+        [strongSelf updateTableViewInConsoleQueue];
     });
 }
 
