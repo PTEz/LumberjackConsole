@@ -300,7 +300,7 @@ static PTEDashboard * _sharedDashboard;
 
 
 @interface PTERootController : UIViewController
-
+@property (nonatomic, strong) IBOutlet UITableView *tableView;
 @end
 
 @implementation PTERootController
@@ -309,6 +309,11 @@ static PTEDashboard * _sharedDashboard;
 {
     // Fixes missing status bar.
     return NO;
+}
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    [self.tableView dataSource];
 }
 
 @end
