@@ -51,6 +51,7 @@
     // Default settings
     self.allowsMultipleSelection = YES;
     self.rowHeight = 20.0;
+    self.logger = [PTEConsoleLogger new];
 }
 
 - (void)willMoveToWindow:(UIWindow *)newWindow
@@ -91,19 +92,6 @@
             ((UITextField *)view).enablesReturnKeyAutomatically = NO;
         }
     }
-}
-
-- (id<UITableViewDataSource>)dataSource
-{
-    // Create a logger if needed
-    PTEConsoleLogger * logger = self.logger;
-    if (!logger)
-    {
-        logger = [PTEConsoleLogger new];
-        self.logger = logger;
-    }
-    
-    return logger;
 }
 
 - (IBAction)clearConsole:(id)sender
