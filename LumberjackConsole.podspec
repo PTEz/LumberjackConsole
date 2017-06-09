@@ -2,7 +2,7 @@
 Pod::Spec.new do |s|
     
     s.name          = "LumberjackConsole"
-    s.version       = "2.4.3"
+    s.version       = "3.0.0"
     s.summary       = "On-device CocoaLumberjack console with support for search, adjust levels, copying and more."
     s.homepage      = "http://ptez.github.io/LumberjackConsole"
     
@@ -17,8 +17,8 @@ Pod::Spec.new do |s|
     s.requires_arc  = true
     s.preserve_paths = "README.md", "NOTICE"
     
-    s.dependency 'NBUCore', '>= 2.0.3'
-    s.dependency 'CocoaLumberjack', '>= 2.0.0'
+    s.dependency 'NBUCore', '>= 2.0.5'
+    s.dependency 'CocoaLumberjack', '>= 3.x'
     
     s.source_files = 'Source/*.{h,m}'
     s.resources    = 'Source/*.{storyboard}'
