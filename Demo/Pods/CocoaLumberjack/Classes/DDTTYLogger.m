@@ -1,6 +1,6 @@
 // Software License Agreement (BSD License)
 //
-// Copyright (c) 2010-2015, Deusty, LLC
+// Copyright (c) 2010-2016, Deusty, LLC
 // All rights reserved.
 //
 // Redistribution and use of this software in source and binary forms,
@@ -29,13 +29,15 @@
 // So we use primitive logging macros around NSLog.
 // We maintain the NS prefix on the macros to be explicit about the fact that we're using NSLog.
 
-#define LOG_LEVEL 2
+#ifndef DD_NSLOG_LEVEL
+    #define DD_NSLOG_LEVEL 2
+#endif
 
-#define NSLogError(frmt, ...)    do{ if(LOG_LEVEL >= 1) NSLog((frmt), ##__VA_ARGS__); } while(0)
-#define NSLogWarn(frmt, ...)     do{ if(LOG_LEVEL >= 2) NSLog((frmt), ##__VA_ARGS__); } while(0)
-#define NSLogInfo(frmt, ...)     do{ if(LOG_LEVEL >= 3) NSLog((frmt), ##__VA_ARGS__); } while(0)
-#define NSLogDebug(frmt, ...)    do{ if(LOG_LEVEL >= 4) NSLog((frmt), ##__VA_ARGS__); } while(0)
-#define NSLogVerbose(frmt, ...)  do{ if(LOG_LEVEL >= 5) NSLog((frmt), ##__VA_ARGS__); } while(0)
+#define NSLogError(frmt, ...)    do{ if(DD_NSLOG_LEVEL >= 1) NSLog((frmt), ##__VA_ARGS__); } while(0)
+#define NSLogWarn(frmt, ...)     do{ if(DD_NSLOG_LEVEL >= 2) NSLog((frmt), ##__VA_ARGS__); } while(0)
+#define NSLogInfo(frmt, ...)     do{ if(DD_NSLOG_LEVEL >= 3) NSLog((frmt), ##__VA_ARGS__); } while(0)
+#define NSLogDebug(frmt, ...)    do{ if(DD_NSLOG_LEVEL >= 4) NSLog((frmt), ##__VA_ARGS__); } while(0)
+#define NSLogVerbose(frmt, ...)  do{ if(DD_NSLOG_LEVEL >= 5) NSLog((frmt), ##__VA_ARGS__); } while(0)
 
 // Xcode does NOT natively support colors in the Xcode debugging console.
 // You'll need to install the XcodeColors plugin to see colors in the Xcode console.
@@ -116,8 +118,6 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 @interface DDTTYLogger () {
-    NSUInteger _calendarUnitFlags;
-    
     NSString *_appName;
     char *_app;
     size_t _appLen;
@@ -714,20 +714,19 @@ static DDTTYLogger *sharedInstance;
         CGColorSpaceRelease(rgbColorSpace);
     }
 
-    #elif __has_include(<AppKit/NSColor.h>)
+    #elif defined(DD_CLI) || !__has_include(<AppKit/NSColor.h>)
+
+    // OS X without AppKit
+
+    [color getRed:rPtr green:gPtr blue:bPtr alpha:NULL];
+
+    #else /* if TARGET_OS_IPHONE */
 
     // OS X with AppKit
 
     NSColor *safeColor = [color colorUsingColorSpaceName:NSCalibratedRGBColorSpace];
 
     [safeColor getRed:rPtr green:gPtr blue:bPtr alpha:NULL];
-
-    #else /* if TARGET_OS_IPHONE */
-
-    // OS X without AppKit
-
-    [color getRed:rPtr green:gPtr blue:bPtr alpha:NULL];
-
     #endif /* if TARGET_OS_IPHONE */
 }
 
@@ -820,13 +819,6 @@ static DDTTYLogger *sharedInstance;
     }
 
     if ((self = [super init])) {
-        _calendarUnitFlags = (NSCalendarUnitYear     |
-                             NSCalendarUnitMonth    |
-                             NSCalendarUnitDay      |
-                             NSCalendarUnitHour     |
-                             NSCalendarUnitMinute   |
-                             NSCalendarUnitSecond);
-
         // Initialze 'app' variable (char *)
 
         _appName = [[NSProcessInfo processInfo] processName];
@@ -847,6 +839,7 @@ static DDTTYLogger *sharedInstance;
         BOOL processedAppName = [_appName getCString:_app maxLength:(_appLen + 1) encoding:NSUTF8StringEncoding];
 
         if (NO == processedAppName) {
+            free(_app);
             return nil;
         }
 
@@ -858,12 +851,15 @@ static DDTTYLogger *sharedInstance;
         _pid = (char *)malloc(_pidLen + 1);
 
         if (_pid == NULL) {
+            free(_app);
             return nil;
         }
 
         BOOL processedID = [_processID getCString:_pid maxLength:(_pidLen + 1) encoding:NSUTF8StringEncoding];
 
         if (NO == processedID) {
+            free(_app);
+            free(_pid);
             return nil;
         }
 
@@ -1263,18 +1259,19 @@ static DDTTYLogger *sharedInstance;
             // Calculate timestamp.
             // The technique below is faster than using NSDateFormatter.
             if (logMessage->_timestamp) {
-                NSDateComponents *components = [[NSCalendar autoupdatingCurrentCalendar] components:_calendarUnitFlags fromDate:logMessage->_timestamp];
+                NSTimeInterval epoch = [logMessage->_timestamp timeIntervalSince1970];
+                struct tm tm;
+                time_t time = (time_t)epoch;
+                (void)localtime_r(&time, &tm);
+                int milliseconds = (int)((epoch - floor(epoch)) * 1000.0);
 
-                NSTimeInterval epoch = [logMessage->_timestamp timeIntervalSinceReferenceDate];
-                int milliseconds = (int)((epoch - floor(epoch)) * 1000);
-
-                len = snprintf(ts, 24, "%04ld-%02ld-%02ld %02ld:%02ld:%02ld:%03d", // yyyy-MM-dd HH:mm:ss:SSS
-                               (long)components.year,
-                               (long)components.month,
-                               (long)components.day,
-                               (long)components.hour,
-                               (long)components.minute,
-                               (long)components.second, milliseconds);
+                len = snprintf(ts, 24, "%04d-%02d-%02d %02d:%02d:%02d:%03d", // yyyy-MM-dd HH:mm:ss:SSS
+                               tm.tm_year + 1900,
+                               tm.tm_mon + 1,
+                               tm.tm_mday,
+                               tm.tm_hour,
+                               tm.tm_min,
+                               tm.tm_sec, milliseconds);
 
                 tsLen = (NSUInteger)MAX(MIN(24 - 1, len), 0);
             }

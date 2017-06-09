@@ -1,6 +1,6 @@
 // Software License Agreement (BSD License)
 //
-// Copyright (c) 2014-2015, Deusty, LLC
+// Copyright (c) 2014-2016, Deusty, LLC
 // All rights reserved.
 //
 // Redistribution and use of this software in source and binary forms,
@@ -14,78 +14,82 @@
 //   prior written permission of Deusty, LLC.
 
 import Foundation
-import CocoaLumberjack
 
 extension DDLogFlag {
-    public static func fromLogLevel(logLevel: DDLogLevel) -> DDLogFlag {
-        return DDLogFlag(logLevel.rawValue)
+    public static func from(_ logLevel: DDLogLevel) -> DDLogFlag {
+        return DDLogFlag(rawValue: logLevel.rawValue)
     }
+	
+	public init(_ logLevel: DDLogLevel) {
+        self = DDLogFlag(rawValue: logLevel.rawValue)
+	}
     
     ///returns the log level, or the lowest equivalant.
     public func toLogLevel() -> DDLogLevel {
-        if let ourValid = DDLogLevel(rawValue: self.rawValue) {
+        if let ourValid = DDLogLevel(rawValue: rawValue) {
             return ourValid
         } else {
-            let logFlag = self
-            if logFlag & .Verbose == .Verbose {
-                return .Error
-            } else if logFlag & .Debug == .Debug {
-                return .Debug
-            } else if logFlag & .Info == .Info {
-                return .Info
-            } else if logFlag & .Warning == .Warning {
-                return .Warning
-            } else if logFlag & .Error == .Error {
-                return .Verbose
+            if contains(.verbose) {
+                return .verbose
+            } else if contains(.debug) {
+                return .debug
+            } else if contains(.info) {
+                return .info
+            } else if contains(.warning) {
+                return .warning
+            } else if contains(.error) {
+                return .error
             } else {
-                return .Off
+                return .off
             }
         }
     }
 }
 
-extension DDMultiFormatter {
-    public var formatterArray: [DDLogFormatter] {
-        return self.formatters as [DDLogFormatter]
-    }
-}
-
-public var defaultDebugLevel = DDLogLevel.Warning
+public var defaultDebugLevel = DDLogLevel.verbose
 
 public func resetDefaultDebugLevel() {
-    defaultDebugLevel = DDLogLevel.Warning
+    defaultDebugLevel = DDLogLevel.verbose
 }
 
-public func SwiftLogMacro(isAsynchronous: Bool, level: DDLogLevel, flag flg: DDLogFlag, context: Int = 0, file: StaticString = __FILE__, function: StaticString = __FUNCTION__, line: UInt = __LINE__, tag: AnyObject? = nil, #string: @autoclosure () -> String) {
-    if level.rawValue & flg.rawValue != 0 {
-        // Tell the DDLogMessage constructor to copy the C strings that get passed to it. Using string interpolation to prevent integer overflow warning when using StaticString.stringValue
-        let logMessage = DDLogMessage(message: string(), level: level, flag: flg, context: context, file: "\(file)", function: "\(function)", line: line, tag: tag, options: .CopyFile | .CopyFunction, timestamp: nil)
-        DDLog.log(isAsynchronous, message: logMessage)
+public func _DDLogMessage(_ message: @autoclosure () -> String, level: DDLogLevel, flag: DDLogFlag, context: Int, file: StaticString, function: StaticString, line: UInt, tag: Any?, asynchronous: Bool, ddlog: DDLog) {
+    if level.rawValue & flag.rawValue != 0 {
+        // Tell the DDLogMessage constructor to copy the C strings that get passed to it.
+        let logMessage = DDLogMessage(message: message(), level: level, flag: flag, context: context, file: String(describing: file), function: String(describing: function), line: line, tag: tag, options: [.copyFile, .copyFunction], timestamp: nil)
+        ddlog.log(asynchronous: asynchronous, message: logMessage)
     }
 }
 
-public func DDLogDebug(logText: @autoclosure () -> String, level: DDLogLevel = defaultDebugLevel, file: StaticString = __FILE__, function: StaticString = __FUNCTION__, line: UWord = __LINE__, asynchronous async: Bool = true) {
-    SwiftLogMacro(async, level, flag: .Debug, file: file, function: function, line: line, string: logText)
+public func DDLogDebug(_ message: @autoclosure () -> String, level: DDLogLevel = defaultDebugLevel, context: Int = 0, file: StaticString = #file, function: StaticString = #function, line: UInt = #line, tag: Any? = nil, asynchronous async: Bool = true, ddlog: DDLog = DDLog.sharedInstance) {
+    _DDLogMessage(message, level: level, flag: .debug, context: context, file: file, function: function, line: line, tag: tag, asynchronous: async, ddlog: ddlog)
 }
 
-public func DDLogInfo(logText: @autoclosure () -> String, level: DDLogLevel = defaultDebugLevel, file: StaticString = __FILE__, function: StaticString = __FUNCTION__, line: UWord = __LINE__, asynchronous async: Bool = true) {
-    SwiftLogMacro(async, level, flag: .Info, file: file, function: function, line: line, string: logText)
+public func DDLogInfo(_ message: @autoclosure () -> String, level: DDLogLevel = defaultDebugLevel, context: Int = 0, file: StaticString = #file, function: StaticString = #function, line: UInt = #line, tag: Any? = nil, asynchronous async: Bool = true, ddlog: DDLog = DDLog.sharedInstance) {
+    _DDLogMessage(message, level: level, flag: .info, context: context, file: file, function: function, line: line, tag: tag, asynchronous: async, ddlog: ddlog)
 }
 
-public func DDLogWarn(logText: @autoclosure () -> String, level: DDLogLevel = defaultDebugLevel, file: StaticString = __FILE__, function: StaticString = __FUNCTION__, line: UWord = __LINE__, asynchronous async: Bool = true) {
-    SwiftLogMacro(async, level, flag: .Warning, file: file, function: function, line: line, string: logText)
+public func DDLogWarn(_ message: @autoclosure () -> String, level: DDLogLevel = defaultDebugLevel, context: Int = 0, file: StaticString = #file, function: StaticString = #function, line: UInt = #line, tag: Any? = nil, asynchronous async: Bool = true, ddlog: DDLog = DDLog.sharedInstance) {
+    _DDLogMessage(message, level: level, flag: .warning, context: context, file: file, function: function, line: line, tag: tag, asynchronous: async, ddlog: ddlog)
 }
 
-public func DDLogVerbose(logText: @autoclosure () -> String, level: DDLogLevel = defaultDebugLevel, file: StaticString = __FILE__, function: StaticString = __FUNCTION__, line: UWord = __LINE__, asynchronous async: Bool = true) {
-    SwiftLogMacro(async, level, flag: .Verbose, file: file, function: function, line: line, string: logText)
+public func DDLogVerbose(_ message: @autoclosure () -> String, level: DDLogLevel = defaultDebugLevel, context: Int = 0, file: StaticString = #file, function: StaticString = #function, line: UInt = #line, tag: Any? = nil, asynchronous async: Bool = true, ddlog: DDLog = DDLog.sharedInstance) {
+    _DDLogMessage(message, level: level, flag: .verbose, context: context, file: file, function: function, line: line, tag: tag, asynchronous: async, ddlog: ddlog)
 }
 
-public func DDLogError(logText: @autoclosure () -> String, level: DDLogLevel = defaultDebugLevel, file: StaticString = __FILE__, function: StaticString = __FUNCTION__, line: UWord = __LINE__, asynchronous async: Bool = false) {
-    SwiftLogMacro(async, level, flag: .Error, file: file, function: function, line: line, string: logText)
+public func DDLogError(_ message: @autoclosure () -> String, level: DDLogLevel = defaultDebugLevel, context: Int = 0, file: StaticString = #file, function: StaticString = #function, line: UInt = #line, tag: Any? = nil, asynchronous async: Bool = false, ddlog: DDLog = DDLog.sharedInstance) {
+    _DDLogMessage(message, level: level, flag: .error, context: context, file: file, function: function, line: line, tag: tag, asynchronous: async, ddlog: ddlog)
 }
 
-/// Analogous to the C preprocessor macro THIS_FILE
-public func CurrentFileName(fileName: StaticString = __FILE__) -> String {
-    // Using string interpolation to prevent integer overflow warning when using StaticString.stringValue
-    return "\(fileName)".lastPathComponent.stringByDeletingPathExtension
+/// Returns a String of the current filename, without full path or extension.
+///
+/// Analogous to the C preprocessor macro `THIS_FILE`.
+public func CurrentFileName(_ fileName: StaticString = #file) -> String {
+    var str = String(describing: fileName)
+    if let idx = str.range(of: "/", options: .backwards)?.upperBound {
+        str = str.substring(from: idx)
+    }
+    if let idx = str.range(of: ".", options: .backwards)?.lowerBound {
+        str = str.substring(to: idx)
+    }
+    return str
 }

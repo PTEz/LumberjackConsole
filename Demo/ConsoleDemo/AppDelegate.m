@@ -30,15 +30,6 @@
     // Add the console dashboard for testing builds
     [PTEDashboard.sharedDashboard show];
     
-//    PTEDashboard.sharedDashboard.windowLevel = UIWindowLevelNormal;
-//    PTEDashboard.sharedDashboard.windowLevel = UIWindowLevelNormal + 10;
-//    PTEDashboard.sharedDashboard.windowLevel = UIWindowLevelStatusBar + 1;
-//    [NSTimer scheduledTimerWithTimeInterval:0.1 target:self selector:@selector(adjust) userInfo:nil repeats:YES];
-//    
-//    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-//        PTEDashboard.sharedDashboard.windowLevel = UIWindowLevelStatusBar + 1;
-//    });
-    
     DDLogInfo(@"Added console dashboard");
 #endif
     

@@ -1,6 +1,6 @@
 // Software License Agreement (BSD License)
 //
-// Copyright (c) 2010-2015, Deusty, LLC
+// Copyright (c) 2010-2016, Deusty, LLC
 // All rights reserved.
 //
 // Redistribution and use of this software in source and binary forms,
@@ -19,6 +19,10 @@
 #if !__has_feature(objc_arc)
 #error This file must be compiled with ARC. Use -fobjc-arc flag (or convert project to ARC).
 #endif
+
+const char* const kDDASLKeyDDLog = "DDLog";
+
+const char* const kDDASLDDLogValue = "1";
 
 static DDASLLogger *sharedInstance;
 
@@ -64,7 +68,7 @@ static DDASLLogger *sharedInstance;
 
     NSString * message = _logFormatter ? [_logFormatter formatLogMessage:logMessage] : logMessage->_message;
 
-    if (logMessage) {
+    if (message) {
         const char *msg = [message UTF8String];
 
         size_t aslLogLevel;
@@ -86,7 +90,7 @@ static DDASLLogger *sharedInstance;
 
         char readUIDString[16];
 #ifndef NS_BLOCK_ASSERTIONS
-        int l = snprintf(readUIDString, sizeof(readUIDString), "%d", readUID);
+        size_t l = snprintf(readUIDString, sizeof(readUIDString), "%d", readUID);
 #else
         snprintf(readUIDString, sizeof(readUIDString), "%d", readUID);
 #endif
@@ -100,7 +104,8 @@ static DDASLLogger *sharedInstance;
         if (m != NULL) {
             if (asl_set(m, ASL_KEY_LEVEL, level_strings[aslLogLevel]) == 0 &&
                 asl_set(m, ASL_KEY_MSG, msg) == 0 &&
-                asl_set(m, ASL_KEY_READ_UID, readUIDString) == 0) {
+                asl_set(m, ASL_KEY_READ_UID, readUIDString) == 0 &&
+                asl_set(m, kDDASLKeyDDLog, kDDASLDDLogValue) == 0) {
                 asl_send(_client, m);
             }
             asl_free(m);
