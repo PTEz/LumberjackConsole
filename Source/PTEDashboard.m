@@ -117,10 +117,6 @@ static PTEDashboard * _sharedDashboard;
     CGAffineTransform transform;
     switch (nextOrientation)
     {
-        case UIInterfaceOrientationPortrait:
-            frame.origin = CGPointZero;
-            transform = CGAffineTransformIdentity;
-            break;
         case UIInterfaceOrientationLandscapeLeft:
             frame.origin = CGPointMake(0.0, _screenSize.height);
             transform = CGAffineTransformMakeRotation(- M_PI / 2.0);
@@ -134,6 +130,8 @@ static PTEDashboard * _sharedDashboard;
             transform = CGAffineTransformMakeRotation(M_PI);
             break;
         default:
+            frame.origin = CGPointZero;
+            transform = CGAffineTransformIdentity;
             break;
     }
     
