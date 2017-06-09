@@ -56,6 +56,22 @@ http://cocoadocs.org/docsets/LumberjackConsole/
 
 ### a) Dashboard Logger
 
+#### Swift
+
+Import the module:
+```swift
+import LumberjackConsole
+```
+
+Add its logger for testing builds:
+```swift
+#if !PRODUCTION
+    PTEDashboard.shared().show()
+#endif
+```
+
+#### Objective-C
+
 Import the dashboard header:
 ```obj-c
 #import <LumberjackConsole/PTEDashboard.h>
