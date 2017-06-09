@@ -72,14 +72,14 @@
     // Make sure the logger is also our data source and delegate
     self.dataSource = logger;
     self.delegate = logger;
-    
-    // And our search bar's delegate too
-    self.searchBar.delegate = logger;
 }
 
 - (void)setSearchBar:(UISearchBar *)searchBar
 {
     _searchBar = searchBar;
+    
+    // Set our search bar's delegate
+    searchBar.delegate = self.logger;
     
     // Customize searchBar keyboard's return key
     NSArray * subviewsToCheck = SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0") ? ((UIView *)_searchBar.subviews[0]).subviews :
