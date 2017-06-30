@@ -98,6 +98,11 @@ static PTEDashboard * _sharedDashboard;
     self.hidden = NO;
     self.minimized = YES;
 }
+- (void)hide
+{
+    self.hidden = YES;
+    self.minimized = YES;
+}
 
 - (void)handleStatusBarOrientationChange:(NSNotification *)notification
 {

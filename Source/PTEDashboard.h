@@ -32,8 +32,11 @@
 /// The shared dashboard.
 + (PTEDashboard *)sharedDashboard;
 
-/// Add the dashboard to the screen.
+/// Add the dashboard to the screen and show it.
 - (void)show;
+
+/// Hide dashboard.
+- (void)hide;
 
 /// @name Properties
 
