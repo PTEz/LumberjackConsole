@@ -254,13 +254,13 @@ static PTEDashboard * _sharedDashboard;
         tableFrame.origin.x += 20.0;
         tableFrame.size.width -= 20.0;
         _consoleTableView.frame = tableFrame;
-        _consoleTableView.contentOffset = CGPointMake(0.0,
-                                                      MAX(_consoleTableView.contentOffset.y,
-                                                          _consoleTableView.tableHeaderView.bounds.size.height));
         self.frame = CGRectMake(self.frame.origin.x,
                                 self.frame.origin.y,
                                 _screenSize.width - 40.0,
                                 height);
+        _consoleTableView.contentOffset = CGPointMake(0.0,
+                                                      MAX(_consoleTableView.contentOffset.y,
+                                                          _consoleTableView.tableHeaderView.bounds.size.height));
     }
     
     // Change keyWindow to enable keyboard input
