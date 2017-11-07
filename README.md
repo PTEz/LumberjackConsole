@@ -3,7 +3,7 @@ LumberjackConsole
 =================
 
 [![Platform: iOS](https://img.shields.io/cocoapods/p/LumberjackConsole.svg?style=flat)](http://cocoadocs.org/docsets/LumberjackConsole/)
-[![Version: 3.0.1](https://img.shields.io/cocoapods/v/LumberjackConsole.svg?style=flat)](http://cocoadocs.org/docsets/LumberjackConsole/)
+[![Version: 3.3.0](https://img.shields.io/cocoapods/v/LumberjackConsole.svg?style=flat)](http://cocoadocs.org/docsets/LumberjackConsole/)
 [![License: Apache 2.0](https://img.shields.io/cocoapods/l/LumberjackConsole.svg?style=flat)](http://cocoadocs.org/docsets/LumberjackConsole/)
 [![Dependency Status](https://www.versioneye.com/objective-c/LumberjackConsole/badge.svg?style=flat)](https://www.versioneye.com/objective-c/LumberjackConsole)
 [![Build Status](http://img.shields.io/travis/PTEz/LumberjackConsole/master.svg?style=flat)](https://travis-ci.org/PTEz/LumberjackConsole)
@@ -39,7 +39,8 @@ A demo project is [included](Demo) in the repository.
 Simply add `pod 'LumberjackConsole'` to your [CocoaPods](http://cocoapods.org)' [Podfile](http://guides.cocoapods.org/syntax/podfile.html).
 
 ```ruby
-platform :ios, '5.0'
+platform :ios, '8.0'
+use_frameworks!
 
 pod 'CocoaLumberjack'
 pod 'LumberjackConsole', :configurations => ['Debug']
