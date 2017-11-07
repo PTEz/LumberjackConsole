@@ -37,10 +37,16 @@ static PTEDashboard * _sharedDashboard;
 + (PTEDashboard *)sharedDashboard
 {
     static dispatch_once_t onceToken;
+    __weak typeof(self) weakSelf = self;
     dispatch_once(&onceToken, ^
                   {
+                      if (weakSelf == nil) {
+                          return;
+                      }
+
+                      __strong typeof(weakSelf) strongSelf = weakSelf;
                       CGRect frame = UIScreen.mainScreen.bounds;
-                      _sharedDashboard = [[self alloc] initWithFrame:frame];
+                      _sharedDashboard = [[strongSelf alloc] initWithFrame:frame];
                   });
     return _sharedDashboard;
 }
@@ -59,9 +65,9 @@ static PTEDashboard * _sharedDashboard;
         }
         
         // Load Storyboard
-        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"LumberjackConsole" bundle:[NSBundle bundleForClass:[self class]]];
-        self.rootViewController = [storyboard instantiateInitialViewController];
-			
+        self.rootViewController = [[UIStoryboard storyboardWithName:@"LumberjackConsole"
+                                                             bundle:nil] instantiateInitialViewController];
+        
         // Save references
         NSArray * subviews = self.rootViewController.view.subviews;
         _consoleTableView = subviews[0];
@@ -112,12 +118,13 @@ static PTEDashboard * _sharedDashboard;
     
     // Flip the window's height and width?
     CGRect frame = self.frame;
-    if ((UIInterfaceOrientationIsLandscape(currentOrientation) && UIInterfaceOrientationIsPortrait(nextOrientation)) ||
-        (UIInterfaceOrientationIsPortrait(currentOrientation) && UIInterfaceOrientationIsLandscape(nextOrientation)))
+    if ((UIDeviceOrientationIsLandscape(currentOrientation) && UIDeviceOrientationIsPortrait(nextOrientation)) ||
+        (UIDeviceOrientationIsPortrait(currentOrientation) && UIDeviceOrientationIsLandscape(nextOrientation)))
     {
-        frame.size = CGSizeMake(frame.size.height,frame.size.width);
+        frame.size = CGSizeMake(frame.size.height,
+                                frame.size.width);
     }
-	
+    
     // Calculate the transform and origin
     CGAffineTransform transform;
     switch (nextOrientation)
