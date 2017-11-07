@@ -1,28 +1,27 @@
 PODS:
-  - CocoaLumberjack (3.2.0):
-    - CocoaLumberjack/Default (= 3.2.0)
-    - CocoaLumberjack/Extensions (= 3.2.0)
-  - CocoaLumberjack/Default (3.2.0)
-  - CocoaLumberjack/Extensions (3.2.0):
+  - CocoaLumberjack (3.3.0):
+    - CocoaLumberjack/Default (= 3.3.0)
+    - CocoaLumberjack/Extensions (= 3.3.0)
+  - CocoaLumberjack/Default (3.3.0)
+  - CocoaLumberjack/Extensions (3.3.0):
     - CocoaLumberjack/Default
-  - LumberjackConsole (3.0.0):
+  - LumberjackConsole (3.3.0):
     - CocoaLumberjack (>= 3.x)
-    - NBUCore (>= 2.0.5)
-  - NBUCore (2.0.5)
+    - NBUCore (>= 2.1.0)
+  - NBUCore (2.1.0)
 
 DEPENDENCIES:
-  - CocoaLumberjack
   - LumberjackConsole (from `../`)
 
 EXTERNAL SOURCES:
   LumberjackConsole:
-    :path: "../"
+    :path: ../
 
 SPEC CHECKSUMS:
-  CocoaLumberjack: 9b4aed7073d242f29cc2f62068d995faf67f703a
-  LumberjackConsole: e36ef0ed4fdcbe8caea3ec5b0e68d06db25e6fce
-  NBUCore: bfdce78c97f2a9566c97082f44157547223b22a6
+  CocoaLumberjack: 3c8c74683302f9012bb168e1c4b7ae3c0b558431
+  LumberjackConsole: 1837f5266a9b7052aebc6d6d8c9daa8bdc01b75d
+  NBUCore: 201af50441f48513ef6d5823a5fc12c9e1f288cd
 
-PODFILE CHECKSUM: 90a156a3e96d1859607737f390b7347a50d9ff34
+PODFILE CHECKSUM: 39b336eed97bf01478a44c2d0bc9864b93132fda
 
-COCOAPODS: 1.2.1
+COCOAPODS: 1.3.1
