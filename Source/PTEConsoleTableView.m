@@ -51,57 +51,6 @@
     // Default settings
     self.allowsMultipleSelection = YES;
     self.rowHeight = 20.0;
-    self.logger = [PTEConsoleLogger new];
-}
-
-- (void)willMoveToWindow:(UIWindow *)newWindow
-{
-    [super willMoveToWindow:newWindow];
-    
-    // Search bar fix (http://stackoverflow.com/a/25788774/1049134)
-    [_searchBar sizeToFit];
-}
-
-- (void)setLogger:(PTEConsoleLogger *)logger
-{
-    _logger = logger;
-    
-    // Set the logger's tableView
-    logger.tableView = self;
-    
-    // Make sure the logger is also our data source and delegate
-    self.dataSource = logger;
-    self.delegate = logger;
-}
-
-- (void)setSearchBar:(UISearchBar *)searchBar
-{
-    _searchBar = searchBar;
-    
-    // Set our search bar's delegate
-    searchBar.delegate = self.logger;
-    
-    // Customize searchBar keyboard's return key
-    NSArray * subviewsToCheck = SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0") ? ((UIView *)_searchBar.subviews[0]).subviews :
-                                                                                  _searchBar.subviews;
-    for(UIView * view in subviewsToCheck)
-    {
-        if([view conformsToProtocol:@protocol(UITextInputTraits)])
-        {
-            ((UITextField *)view).returnKeyType = UIReturnKeyDone;
-            ((UITextField *)view).enablesReturnKeyAutomatically = NO;
-        }
-    }
-}
-
-- (IBAction)clearConsole:(id)sender
-{
-    [self.logger clearConsole];
-}
-
-- (IBAction)addMarker:(id)sender
-{
-    [self.logger addMarker];
 }
 
 @end

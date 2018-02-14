@@ -13,7 +13,7 @@ Pod::Spec.new do |s|
                         "http://ptez.github.io/LumberjackConsole/images/screenshot3.png" ]
     s.source        = { :git => "https://github.com/PTEz/LumberjackConsole.git", :tag => "#{s.version}" }
     
-    s.platform      = :ios, '5.0'
+    s.platform      = :ios, '9.0'
     s.requires_arc  = true
     s.preserve_paths = "README.md", "NOTICE"
     

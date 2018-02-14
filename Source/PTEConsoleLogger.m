@@ -87,9 +87,6 @@
         _messages = [NSMutableArray arrayWithCapacity:_maxMessages];
         _newMessagesBuffer = NSMutableArray.array;
         _expandedMessages = NSMutableSet.set;
-        
-        // Register logger
-        [DDLog addLogger:self];
     }
     return self;
 }
@@ -249,7 +246,7 @@
     [_newMessagesBuffer removeAllObjects];
     
     // Update table view (dispatch sync to ensure the messages' arrayt doesn't get modified)
-    dispatch_sync(dispatch_get_main_queue(), ^
+    dispatch_async(dispatch_get_main_queue(), ^
                   {
                       // Completely update table view?
                       if (itemsToKeepCount == 0 || forceReload)
@@ -413,6 +410,9 @@ heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     // A marker?
     DDLogMessage * logMessage = (_filteringEnabled ? _filteredMessages : _messages)[indexPath.row];
+    if (!logMessage) {
+        return nil;
+    }
     BOOL marker = [logMessage isKindOfClass:[PTEMarkerLogMessage class]];
     
     // Load cell

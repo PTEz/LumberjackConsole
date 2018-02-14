@@ -301,22 +301,3 @@ static PTEDashboard * _sharedDashboard;
 
 @end
 
-
-@interface PTERootController : UIViewController
-@property (nonatomic, strong) IBOutlet UITableView *tableView;
-@end
-
-@implementation PTERootController
-
-- (BOOL)prefersStatusBarHidden
-{
-    // Fixes missing status bar.
-    return NO;
-}
-
-- (void)viewDidLoad {
-    [super viewDidLoad];
-    [self.tableView dataSource];
-}
-
-@end
