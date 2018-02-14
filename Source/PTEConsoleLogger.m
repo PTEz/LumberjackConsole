@@ -413,6 +413,7 @@ heightForRowAtIndexPath:(NSIndexPath *)indexPath
     if (!logMessage) {
         return nil;
     }
+    
     BOOL marker = [logMessage isKindOfClass:[PTEMarkerLogMessage class]];
     
     // Load cell
@@ -534,13 +535,26 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
 - (BOOL)messagePassesFilter:(DDLogMessage *)message
 {
     // Message is a marker OR (Log flag matches AND (no search text OR contains search text))
-    return ([message isKindOfClass:[PTEMarkerLogMessage class]] ||
-            ((message->_flag & _currentLogLevel) &&
-             (_currentSearchText.length == 0 ||
-              [[self formatLogMessage:message] rangeOfString:_currentSearchText
-                                                     options:(NSCaseInsensitiveSearch |
-                                                              NSDiacriticInsensitiveSearch |
-                                                              NSWidthInsensitiveSearch)].location != NSNotFound)));
+    if ([message isKindOfClass:[PTEMarkerLogMessage class]]) {
+        return YES;
+    } else if (_currentSearchText.length > 0) {
+        return [self containsString:_currentSearchText inMessage:message];
+    } else if (message->_flag & _currentLogLevel) {
+        return YES;
+    }
+    return NO;
+}
+
+- (BOOL) containsString:(NSString*)string inMessage:(DDLogMessage*)message {
+    NSArray<NSString*> *components = [string componentsSeparatedByString:@" "];
+    NSString *formattedMessage = [self formatLogMessage:message];
+    __block BOOL result = YES;
+    [components enumerateObjectsUsingBlock:^(NSString * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        if (obj.length > 0) {
+            result = result && [formattedMessage localizedCaseInsensitiveContainsString:obj];
+        }
+    }];
+    return result;
 }
 
 #pragma mark - Search bar delegate
