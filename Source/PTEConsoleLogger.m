@@ -570,11 +570,11 @@ selectedScopeButtonIndexDidChange:(NSInteger)selectedScope
 {
     switch (selectedScope)
     {
-        case 0  : _currentLogLevel = DDLogLevelVerbose; break;
-        case 1  : _currentLogLevel = DDLogLevelDebug;   break;
-        case 2  : _currentLogLevel = DDLogLevelInfo;    break;
-        case 3  : _currentLogLevel = DDLogLevelWarning; break;
-        default : _currentLogLevel = DDLogLevelError;   break;
+        case 0  : self->_currentLogLevel = DDLogLevelVerbose; break;
+        case 1  : self->_currentLogLevel = DDLogLevelDebug;   break;
+        case 2  : self->_currentLogLevel = DDLogLevelInfo;    break;
+        case 3  : self->_currentLogLevel = DDLogLevelWarning; break;
+        default : self->_currentLogLevel = DDLogLevelError;   break;
     }
     
     [self searchBarStateChanged];
