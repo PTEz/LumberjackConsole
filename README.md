@@ -76,6 +76,7 @@ Add its logger for testing builds:
 Import the dashboard header:
 ```obj-c
 #import <LumberjackConsole/PTEDashboard.h>
+#import <CocoaLumberjack/CocoaLumberjack.h> //if you see error Implicit declaration of function 'DDLogInfo' is invalid in C99
 ```
 
 Add its logger for testing builds:
