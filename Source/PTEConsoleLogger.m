@@ -99,7 +99,7 @@
     dispatch_async(_consoleQueue, ^
     {
         // Add new message to buffer
-        [_newMessagesBuffer insertObject:logMessage
+        [self->_newMessagesBuffer insertObject:logMessage
                                  atIndex:0];
 
         // Trigger update
@@ -146,10 +146,10 @@
     dispatch_async(_consoleQueue, ^
                    {
                        // Clear all messages
-                       [_newMessagesBuffer removeAllObjects];
-                       [_messages removeAllObjects];
-                       [_filteredMessages removeAllObjects];
-                       [_expandedMessages removeAllObjects];
+                       [self->_newMessagesBuffer removeAllObjects];
+                       [self->_messages removeAllObjects];
+                       [self->_filteredMessages removeAllObjects];
+                       [self->_expandedMessages removeAllObjects];
                        
                        [self updateTableViewInConsoleQueue];
                    });
@@ -179,7 +179,7 @@
                        {
                            [self updateTableViewInConsoleQueue];
                            
-                           _updateScheduled = NO;
+                           self->_updateScheduled = NO;
                        });
     }
     // Update directly
@@ -203,12 +203,12 @@
         [messages removeAllObjects];
         [messages addObjectsFromArray:newItems];
         [messages addObjectsFromArray:tmp];
-        itemsToRemoveCount = MAX(0, (NSInteger)(messages.count - _maxMessages));
+        itemsToRemoveCount = MAX(0, (NSInteger)(messages.count - self->_maxMessages));
         if (itemsToRemoveCount > 0)
         {
-            [messages removeObjectsInRange:NSMakeRange(_maxMessages, itemsToRemoveCount)];
+            [messages removeObjectsInRange:NSMakeRange(self->_maxMessages, itemsToRemoveCount)];
         }
-        itemsToInsertCount = MIN(newItems.count, _maxMessages);
+        itemsToInsertCount = MIN(newItems.count, self->_maxMessages);
         itemsToKeepCount = messages.count - itemsToInsertCount;
     };
     
@@ -565,13 +565,13 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
     dispatch_async(_consoleQueue, ^
     {
         // Filtering enabled?
-        _filteringEnabled = (_currentSearchText.length > 0 ||        // Some text input
-                             _currentLogLevel != DDLogLevelVerbose); // Or log level != verbose
+        self->_filteringEnabled = (self->_currentSearchText.length > 0 ||        // Some text input
+                                   self->_currentLogLevel != DDLogLevelVerbose); // Or log level != verbose
         
         // Force reloading filtered messages
-        if (_filteringEnabled)
+        if (self->_filteringEnabled)
         {
-            _filteredMessages = nil;
+            self->_filteredMessages = nil;
         }
         
         // Update
@@ -584,11 +584,11 @@ selectedScopeButtonIndexDidChange:(NSInteger)selectedScope
 {
     switch (selectedScope)
     {
-        case 0  : _currentLogLevel = DDLogLevelVerbose; break;
-        case 1  : _currentLogLevel = DDLogLevelDebug;   break;
-        case 2  : _currentLogLevel = DDLogLevelInfo;    break;
-        case 3  : _currentLogLevel = DDLogLevelWarning; break;
-        default : _currentLogLevel = DDLogLevelError;   break;
+        case 0  : self->_currentLogLevel = DDLogLevelVerbose; break;
+        case 1  : self->_currentLogLevel = DDLogLevelDebug;   break;
+        case 2  : self->_currentLogLevel = DDLogLevelInfo;    break;
+        case 3  : self->_currentLogLevel = DDLogLevelWarning; break;
+        default : self->_currentLogLevel = DDLogLevelError;   break;
     }
     
     [self searchBarStateChanged];

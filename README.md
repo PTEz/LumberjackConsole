@@ -3,7 +3,7 @@ LumberjackConsole
 =================
 
 [![Platform: iOS](https://img.shields.io/cocoapods/p/LumberjackConsole.svg?style=flat)](http://cocoadocs.org/docsets/LumberjackConsole/)
-[![Version: 3.3.0](https://img.shields.io/cocoapods/v/LumberjackConsole.svg?style=flat)](http://cocoadocs.org/docsets/LumberjackConsole/)
+[![Version: 3.3.1](https://img.shields.io/cocoapods/v/LumberjackConsole.svg?style=flat)](http://cocoadocs.org/docsets/LumberjackConsole/)
 [![License: Apache 2.0](https://img.shields.io/cocoapods/l/LumberjackConsole.svg?style=flat)](http://cocoadocs.org/docsets/LumberjackConsole/)
 [![Dependency Status](https://www.versioneye.com/objective-c/LumberjackConsole/badge.svg?style=flat)](https://www.versioneye.com/objective-c/LumberjackConsole)
 [![Build Status](http://img.shields.io/travis/PTEz/LumberjackConsole/master.svg?style=flat)](https://travis-ci.org/PTEz/LumberjackConsole)
@@ -76,6 +76,7 @@ Add its logger for testing builds:
 Import the dashboard header:
 ```obj-c
 #import <LumberjackConsole/PTEDashboard.h>
+#import <CocoaLumberjack/CocoaLumberjack.h> //if you see error Implicit declaration of function 'DDLogInfo' is invalid in C99
 ```
 
 Add its logger for testing builds:
