@@ -40,7 +40,7 @@ static PTEDashboard * _sharedDashboard;
     dispatch_once(&onceToken, ^
                   {
                       CGRect frame = UIScreen.mainScreen.bounds;
-                      _sharedDashboard = [[self alloc] initWithFrame:frame];
+                      _sharedDashboard = [[self alloc] initWithFrame:UIEdgeInsetsInsetRect(window.frame, window.safeAreaInsets)];
                   });
     return _sharedDashboard;
 }
@@ -51,7 +51,7 @@ static PTEDashboard * _sharedDashboard;
     if (self)
     {
         self.windowLevel = UIWindowLevelStatusBar + 1;
-        _screenSize = [UIScreen mainScreen].bounds.size;
+        _screenSize = frame.size;
         
         if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0"))
         {
