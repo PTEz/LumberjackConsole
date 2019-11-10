@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		2F1D6BA3CEC33D384A27F063 /* Pods_ConsoleDemo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 41315CBC89C4E719FD94CE0B /* Pods_ConsoleDemo.framework */; };
+		946842352378938A00F2F78F /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 946842342378938A00F2F78F /* Launch Screen.storyboard */; };
 		E57766D918334DF6009F3276 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E57766D818334DF6009F3276 /* Foundation.framework */; };
 		E57766DB18334DF6009F3276 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E57766DA18334DF6009F3276 /* CoreGraphics.framework */; };
 		E57766DD18334DF6009F3276 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E57766DC18334DF6009F3276 /* UIKit.framework */; };
@@ -21,6 +22,11 @@
 
 /* Begin PBXFileReference section */
 		41315CBC89C4E719FD94CE0B /* Pods_ConsoleDemo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ConsoleDemo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		94543147236C5D5900E142D7 /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
+		94543148236C5D5900E142D7 /* NOTICE */ = {isa = PBXFileReference; lastKnownFileType = text; name = NOTICE; path = ../NOTICE; sourceTree = "<group>"; };
+		94543149236C5D5900E142D7 /* LumberjackConsole.podspec */ = {isa = PBXFileReference; lastKnownFileType = text; name = LumberjackConsole.podspec; path = ../LumberjackConsole.podspec; sourceTree = "<group>"; };
+		9454314A236C5D5900E142D7 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
+		946842342378938A00F2F78F /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 		C8C68BEAB43A0C716546BC40 /* Pods-ConsoleDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ConsoleDemo.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ConsoleDemo/Pods-ConsoleDemo.debug.xcconfig"; sourceTree = "<group>"; };
 		DFA405CAD83B599E694DC4F2 /* Pods-ConsoleDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ConsoleDemo.release.xcconfig"; path = "Pods/Target Support Files/Pods-ConsoleDemo/Pods-ConsoleDemo.release.xcconfig"; sourceTree = "<group>"; };
 		E57766D518334DF6009F3276 /* ConsoleDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ConsoleDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -67,6 +73,10 @@
 		E57766CC18334DF6009F3276 = {
 			isa = PBXGroup;
 			children = (
+				9454314A236C5D5900E142D7 /* README.md */,
+				94543147236C5D5900E142D7 /* LICENSE */,
+				94543148236C5D5900E142D7 /* NOTICE */,
+				94543149236C5D5900E142D7 /* LumberjackConsole.podspec */,
 				E57766DE18334DF6009F3276 /* ConsoleDemo */,
 				E57766D718334DF6009F3276 /* Frameworks */,
 				E57766D618334DF6009F3276 /* Products */,
@@ -102,6 +112,7 @@
 				E57766EA18334DF6009F3276 /* Main.storyboard */,
 				E57766F018334DF6009F3276 /* ViewController.h */,
 				E57766F118334DF6009F3276 /* ViewController.m */,
+				946842342378938A00F2F78F /* Launch Screen.storyboard */,
 				E57766F318334DF6009F3276 /* Images.xcassets */,
 				E57766DF18334DF6009F3276 /* Supporting Files */,
 			);
@@ -131,7 +142,6 @@
 				E57766D218334DF6009F3276 /* Frameworks */,
 				E57766D318334DF6009F3276 /* Resources */,
 				40BA9AA44DF489A70E584D17 /* [CP] Embed Pods Frameworks */,
-				54B63CD09D8F9ADB4BC2DBEE /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -156,6 +166,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 				Base,
 			);
@@ -176,6 +187,7 @@
 			files = (
 				E57766F418334DF6009F3276 /* Images.xcassets in Resources */,
 				E57766EC18334DF6009F3276 /* Main.storyboard in Resources */,
+				946842352378938A00F2F78F /* Launch Screen.storyboard in Resources */,
 				E57766E318334DF6009F3276 /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -189,7 +201,7 @@
 			files = (
 			);
 			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-ConsoleDemo/Pods-ConsoleDemo-frameworks.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-ConsoleDemo/Pods-ConsoleDemo-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/CocoaLumberjack/CocoaLumberjack.framework",
 				"${BUILT_PRODUCTS_DIR}/LumberjackConsole/LumberjackConsole.framework",
 				"${BUILT_PRODUCTS_DIR}/NBUCore/NBUCore.framework",
@@ -202,22 +214,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-ConsoleDemo/Pods-ConsoleDemo-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		54B63CD09D8F9ADB4BC2DBEE /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-ConsoleDemo/Pods-ConsoleDemo-resources.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-ConsoleDemo/Pods-ConsoleDemo-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		C796EE359A5361802B91B22D /* [CP] Check Pods Manifest.lock */ = {

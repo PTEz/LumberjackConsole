@@ -19,7 +19,7 @@
 //
 
 #import "ViewController.h"
-#import <CocoaLumberjack/CocoaLumberjack.h>
+@import CocoaLumberjack;
 
 @implementation ViewController
 

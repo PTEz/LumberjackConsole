@@ -19,8 +19,8 @@
 //
 
 #import "AppDelegate.h"
-#import <CocoaLumberjack/CocoaLumberjack.h>
-#import <LumberjackConsole/PTEDashboard.h>
+@import CocoaLumberjack;
+@import LumberjackConsole;
 
 @implementation AppDelegate
 
