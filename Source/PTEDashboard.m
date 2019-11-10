@@ -28,7 +28,7 @@ static PTEDashboard * _sharedDashboard;
 
 @implementation PTEDashboard
 {
-    CGSize _screenSize;
+    CGSize _insetScreenSize;
     UIWindow * _keyWindow;
     UITableView * _consoleTableView;
     NSArray * _fullscreenOnlyViews;
@@ -40,7 +40,7 @@ static PTEDashboard * _sharedDashboard;
     dispatch_once(&onceToken, ^
                   {
                       CGRect frame = UIScreen.mainScreen.bounds;
-                      _sharedDashboard = [[self alloc] initWithFrame:UIEdgeInsetsInsetRect(window.frame, window.safeAreaInsets)];
+                      _sharedDashboard = [[self alloc] initWithFrame:frame];
                   });
     return _sharedDashboard;
 }
@@ -51,7 +51,7 @@ static PTEDashboard * _sharedDashboard;
     if (self)
     {
         self.windowLevel = UIWindowLevelStatusBar + 1;
-        _screenSize = frame.size;
+        _insetScreenSize = frame.size;
         
         if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0"))
         {
@@ -93,6 +93,14 @@ static PTEDashboard * _sharedDashboard;
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
+- (void)safeAreaInsetsDidChange
+{
+    [super safeAreaInsetsDidChange];
+    
+    self.frame = UIEdgeInsetsInsetRect(self.frame, self.safeAreaInsets);
+    _insetScreenSize = self.frame.size;
+}
+
 - (void)show
 {
     self.hidden = NO;
@@ -123,15 +131,15 @@ static PTEDashboard * _sharedDashboard;
     switch (nextOrientation)
     {
         case UIInterfaceOrientationLandscapeLeft:
-            frame.origin = CGPointMake(0.0, _screenSize.height);
+            frame.origin = CGPointMake(0.0, _insetScreenSize.height);
             transform = CGAffineTransformMakeRotation(- M_PI / 2.0);
             break;
         case UIInterfaceOrientationLandscapeRight:
-            frame.origin = CGPointMake(_screenSize.width, 0.0);
+            frame.origin = CGPointMake(_insetScreenSize.width, 0.0);
             transform = CGAffineTransformMakeRotation(M_PI / 2.0);
             break;
         case UIInterfaceOrientationPortraitUpsideDown:
-            frame.origin = CGPointMake(_screenSize.width, _screenSize.height);
+            frame.origin = CGPointMake(_insetScreenSize.width, _insetScreenSize.height);
             transform = CGAffineTransformMakeRotation(M_PI);
             break;
         default:
@@ -207,12 +215,12 @@ static PTEDashboard * _sharedDashboard;
 
 - (BOOL)isMaximized
 {
-    return self.bounds.size.height == _screenSize.height;
+    return self.bounds.size.height == _insetScreenSize.height;
 }
 
 - (void)setMaximized:(BOOL)maximized
 {
-    [self setWindowHeight:_screenSize.height];
+    [self setWindowHeight:_insetScreenSize.height];
 }
 
 - (BOOL)isMinimized
@@ -229,10 +237,10 @@ static PTEDashboard * _sharedDashboard;
 {
     // Validate height
     height = MAX(kMinimumHeight, height);
-    if (_screenSize.height - height < kMinimumHeight * 2.0)
+    if (_insetScreenSize.height - height < kMinimumHeight * 2.0)
     {
         // Snap to bottom
-        height = _screenSize.height;
+        height = _insetScreenSize.height;
     }
     
     // Adjust layout
@@ -243,7 +251,7 @@ static PTEDashboard * _sharedDashboard;
         _consoleTableView.frame = _consoleTableView.superview.bounds;
         self.frame = CGRectMake(self.frame.origin.x,
                                 self.frame.origin.y,
-                                _screenSize.width,
+                                _insetScreenSize.width,
                                 height);
     }
     else
@@ -256,7 +264,7 @@ static PTEDashboard * _sharedDashboard;
         _consoleTableView.frame = tableFrame;
         self.frame = CGRectMake(self.frame.origin.x,
                                 self.frame.origin.y,
-                                _screenSize.width - 40.0,
+                                _insetScreenSize.width - 40.0,
                                 height);
         _consoleTableView.contentOffset = CGPointMake(0.0,
                                                       MAX(_consoleTableView.contentOffset.y,
@@ -264,7 +272,7 @@ static PTEDashboard * _sharedDashboard;
     }
     
     // Change keyWindow to enable keyboard input
-    if (height == _screenSize.height)
+    if (height == _insetScreenSize.height)
     {
         // Maximized
         if (!_keyWindow)
