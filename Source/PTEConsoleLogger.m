@@ -260,8 +260,10 @@
                       // Partial only
                       else
                       {
-                          [self updateTableViewRowsRemoving:itemsToRemoveCount
-                                                  inserting:itemsToInsertCount];
+                          // only reload data to tableView if at the top
+                          if (self.tableView.contentOffset.y < 0) {
+                              [self.tableView reloadData];
+                          }
                       }
                   });
 }
